@@ -21,4 +21,10 @@ public class ListItemActivityTest extends ActivityInstrumentationTestCase2<ListI
         solo = new Solo(getInstrumentation(),getActivity());
         listItemactivity = getActivity();
     }
+
+    public void testShowView() throws InterruptedException{
+
+
+
+    }
 }

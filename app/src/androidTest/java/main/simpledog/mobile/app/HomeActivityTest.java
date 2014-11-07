@@ -28,5 +28,7 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
         String helloText = ((TextView)homeActivity.findViewById(R.id.helloText)).getText().toString();
         solo.clickOnText(helloText);
         solo.assertCurrentActivity("List Activity", ListItemActivity.class);
+        Thread.sleep(10000);
+
     }
 }
