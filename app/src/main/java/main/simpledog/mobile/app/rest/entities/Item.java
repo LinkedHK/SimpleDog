@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 public class Item {
 
+    public  String id;
 
    public String City;
 

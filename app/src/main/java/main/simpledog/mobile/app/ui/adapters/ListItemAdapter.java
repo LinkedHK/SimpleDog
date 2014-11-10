@@ -6,11 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,6 +28,8 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         super(context,R.layout.item_base,objects);
     }
 
+
+
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if(convertView == null){
@@ -41,6 +43,7 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         viewHolder = (ViewHolder) convertView.getTag();
         Item item = getItem(position);
         viewHolder.item_title_view.setText(item.getItem_title());
+
         return  convertView;
     }
 }
