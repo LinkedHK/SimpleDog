@@ -4,20 +4,13 @@ import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 import main.simpledog.mobile.app.R;
-import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
-import main.simpledog.mobile.app.rest.parsers.ItemResponseParser;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
-import org.apache.http.Header;
-import org.json.JSONArray;
-import org.json.JSONException;
+import main.simpledog.mobile.app.ui.listeners.ScrollItemListener;
 
 import java.util.List;
 
@@ -31,18 +24,21 @@ public class ListItemActivity extends ListActivity  {
     private   ListItemLoader itemLoader = new ListItemLoader();
 
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_list);
         loaderView = (ProgressBar) findViewById(R.id.itemLoadingProgressBar);
-        itemLoader.LoadItems(loadItemsCallback);
-      //  getListView().setOnScrollListener(scrollListener);
+        itemLoader.loadItems(0,null,loadItemsCallback);
+        getListView().setOnScrollListener(scrollItemListener);
     }
 
-
+    ScrollItemListener scrollItemListener = new ScrollItemListener() {
+        @Override
+        public void onLoadMore(int page, int totalItemsCount) {
+            itemLoader.loadItems(page,null,loadItemsCallback);
+        }
+    };
     ListItemLoader.LoadItemsInterface loadItemsCallback  = new ListItemLoader.LoadItemsInterface() {
         @Override
         public void onStart() {
@@ -52,9 +48,11 @@ public class ListItemActivity extends ListActivity  {
         public void onSuccess(int statusCode, List<Item> items) {
             if(adapter == null){
                 adapter = new ListItemAdapter(ListItemActivity.this,items);
+                adapter.notifyDataSetChanged();
                 setListAdapter(adapter);
+
             }else {
-                adapter.addAll(items);
+                adapter.addEntriesToBottom(items);
             }
         }
         @Override

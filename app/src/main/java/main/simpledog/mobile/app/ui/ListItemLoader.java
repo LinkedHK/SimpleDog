@@ -28,11 +28,10 @@ public class ListItemLoader {
 
     protected  ListItemActivity itemActivity;
 
-    protected  void LoadItems( final LoadItemsInterface loadItemsInterface){
-        LoadItems(new RequestParams("page",0),loadItemsInterface );
-    }
 
-    protected void LoadItems(RequestParams params, final LoadItemsInterface loadItemsInterface) {
+
+    protected void loadItems(int page, String category, final LoadItemsInterface loadItemsInterface) {
+        RequestParams params = prepareParams(page,category);
         ItemResolverClient.get(items_url, params, loadItemTimeout, new JsonHttpResponseHandler() {
             public void onStart() {
                 loadItemsInterface.onStart();
@@ -55,6 +54,19 @@ public class ListItemLoader {
 
         });
     }
+
+    RequestParams prepareParams(int page, String category){
+
+        RequestParams params = new RequestParams();
+        params.add("page",String.valueOf(page));
+        if (category == null){
+            params.add("category","information-technology");
+        }else {
+            params.add("category",category);
+        }
+        return  params;
+    };
+
 
     public interface LoadItemsInterface{
         public  void onStart();

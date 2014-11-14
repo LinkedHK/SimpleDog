@@ -23,7 +23,7 @@ public class ListItemActivityTest extends ActivityInstrumentationTestCase2<ListI
     }
 
     public void testShowView() throws InterruptedException{
-        Thread.sleep(20000);
+        Thread.sleep(50000);
     }
 
     public  void testFailureToLoad(){
