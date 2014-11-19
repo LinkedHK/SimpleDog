@@ -1,5 +1,7 @@
 package main.simpledog.mobile.app.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
+import main.simpledog.mobile.app.ui.fragments.ShowItemFragment;
 import main.simpledog.mobile.app.ui.listeners.ScrollItemListener;
 
 import java.util.List;
@@ -64,8 +67,24 @@ public class ListItemActivity extends ListActivity  {
         }
     };
 
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Log.d("Item_id", "");
 
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        Item item = (Item) getListAdapter().getItem(position);
+        ShowItemFragment fragment = (ShowItemFragment) getFragmentManager().findFragmentById(R.id.showItemFragment);
+        Bundle args = new Bundle();
+        args.putInt("item_id", Integer.parseInt(item.id));
+
+        if (fragment == null) {
+            fragment = new ShowItemFragment();
+            fragment.setArguments(args);
+            getFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.showItemFragment, fragment).commit();
+        }else {
+            fragment.setArguments(args);
+            getFragmentManager().beginTransaction()
+                    .replace(R.id.showItemFragment, fragment)
+                    .commit();
+        }
     }
 }

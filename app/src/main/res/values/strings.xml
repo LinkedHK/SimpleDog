@@ -11,6 +11,8 @@
     <string name="ok">OK</string>
     <string name="item_load_failure_title">Failed to load items.</string>
     <string name="item_load_failure">Failed to load items. Please try again later.</string>
+    <string name="item_title">Item Title</string>
+    <string name="item_description">Item Description</string>
 
 
 </resources>

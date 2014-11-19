@@ -25,6 +25,7 @@ public class ItemResponseParser extends JsonBuilderBase<Item> {
         }
         return  preparedList;
     }
+
     public  Item BuildItem(JSONObject res) throws  JSONException{
             Item item = new Item();
             item.item_title = getFirst(res,"item_title","item_descriptions");

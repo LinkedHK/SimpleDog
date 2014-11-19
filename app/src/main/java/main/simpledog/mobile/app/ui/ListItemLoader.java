@@ -3,39 +3,42 @@ package main.simpledog.mobile.app.ui;
 
 import android.util.Log;
 import android.view.View;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
+import main.simpledog.mobile.app.rest.entities.ShowItem;
 import main.simpledog.mobile.app.rest.parsers.ItemResponseParser;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListItemLoader {
 
     protected  String items_url = "/items";
 
+    protected String    show_item_url = "/show_item";
+
     protected  Integer loadItemTimeout = 5000;
-
-    protected  List<Item> items;
-
 
     protected  ListItemActivity itemActivity;
 
-
-
-    protected void loadItems(int page, String category, final LoadItemsInterface loadItemsInterface) {
+    public void loadItems(int page, String category, final LoadItemsInterface loadItemsInterface) {
         RequestParams params = prepareParams(page,category);
         ItemResolverClient.get(items_url, params, loadItemTimeout, new JsonHttpResponseHandler() {
             public void onStart() {
                 loadItemsInterface.onStart();
             }
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                List<Item> items = new ArrayList<Item>();
                 try {
                     items  = new ItemResponseParser().Parse(response);
                 } catch (JSONException e) {
@@ -53,6 +56,30 @@ public class ListItemLoader {
 
         });
     }
+    public void showItem(int item_id,final LoadItemsInterface loadItemsInterface){
+        ItemResolverClient.get(show_item_url, new RequestParams("id",item_id), loadItemTimeout, new JsonHttpResponseHandler() {
+            public void onStart() {
+                loadItemsInterface.onStart();
+            }
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                List<Item> item = new ArrayList<Item>(1);
+
+                item.add(new GsonBuilder().create().fromJson(response.toString(), ShowItem.class));
+
+                loadItemsInterface.onSuccess(statusCode, item);
+            }
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                loadItemsInterface.onFailure(statusCode);
+            }
+            public void onFinish() {
+                loadItemsInterface.onFinish();
+            }
+
+        });
+
+
+    }
 
     RequestParams prepareParams(int page, String category){
 
@@ -69,23 +96,10 @@ public class ListItemLoader {
 
     public interface LoadItemsInterface{
         public  void onStart();
-        public void onSuccess(int statusCode,List<Item> items);
+        public void onSuccess(int statusCode,List<Item> items );
+
         public  void onFailure(int statusCode);
         public void onFinish();
-    }
-    public abstract class ShortItemLoader implements LoadItemsInterface{
-        public  void onStart(){
-
-        }
-        public abstract void onSuccess(int statusCode,List<Item> items);
-
-        public  void onFailure(int statusCode){
-
-        }
-        public void onFinish(){
-
-        }
-
     }
 
     public Integer getLoadItemTimeout() {
@@ -104,9 +118,7 @@ public class ListItemLoader {
         this.items_url = items_url;
     }
 
-    public List<Item> getItems() {
-        return items;
-    }
+
 }
 
 
