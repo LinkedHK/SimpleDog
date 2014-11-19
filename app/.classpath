@@ -32,9 +32,9 @@
 	<classpathentry kind="src" path="src/androidTest/java"/>
 	<classpathentry kind="src" path="src/androidTest/jni"/>
 	<classpathentry kind="src" path="src/androidTest/rs"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/junit-4.12-beta-2"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/support-v4-21.0.0"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/hamcrest-core-1.3"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/junit-4.12-beta-3"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/junit-3.8.2"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/gson-2.3"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/android-test-4.1.1.4"/>

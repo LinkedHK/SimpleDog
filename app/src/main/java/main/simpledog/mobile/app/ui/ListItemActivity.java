@@ -50,7 +50,6 @@ public class ListItemActivity extends ListActivity  {
                 adapter = new ListItemAdapter(ListItemActivity.this,items);
                 adapter.notifyDataSetChanged();
                 setListAdapter(adapter);
-
             }else {
                 adapter.addEntriesToBottom(items);
             }
@@ -62,7 +61,6 @@ public class ListItemActivity extends ListActivity  {
         @Override
         public void onFinish() {
             loaderView.setVisibility(View.INVISIBLE);
-
         }
     };
 

@@ -29,8 +29,6 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         super(context,R.layout.item_base,objects);
         entries = objects;
     }
-
-
     public void addEntriesToTop(List<Item> entries) {
         // Add entries in reversed order to achieve a sequence used in most of messaging/chat apps
         if (entries != null) {

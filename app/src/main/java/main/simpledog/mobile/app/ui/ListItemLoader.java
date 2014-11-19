@@ -24,7 +24,6 @@ public class ListItemLoader {
 
     protected  List<Item> items;
 
-    protected  ItemResponseParser itemResponseParser = new ItemResponseParser();
 
     protected  ListItemActivity itemActivity;
 
@@ -38,7 +37,7 @@ public class ListItemLoader {
             }
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 try {
-                    items = itemResponseParser.Parse(response);
+                    items  = new ItemResponseParser().Parse(response);
                 } catch (JSONException e) {
                     Log.e("Json_Exception", e.getMessage());
                 }
