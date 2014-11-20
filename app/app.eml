@@ -9,8 +9,8 @@
 		<testFolder url="file://$MODULE_DIR$/build/generated/res/rs/test/debug"/>
 		<testFolder url="file://$MODULE_DIR$/src/androidTest/res"/>
 		<testFolder url="file://$MODULE_DIR$/src/androidTest/resources"/>
-		<testFolder url="file://$MODULE_DIR$/src/androidTest/assets"/>
 		<testFolder url="file://$MODULE_DIR$/src/androidTest/aidl"/>
+		<testFolder url="file://$MODULE_DIR$/src/androidTest/assets"/>
 		<testFolder url="file://$MODULE_DIR$/src/androidTest/java"/>
 		<testFolder url="file://$MODULE_DIR$/src/androidTest/jni"/>
 		<testFolder url="file://$MODULE_DIR$/src/androidTest/rs"/>

@@ -2,8 +2,6 @@ package main.simpledog.mobile.app.ui;
 
 
 import android.util.Log;
-import android.view.View;
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -11,8 +9,7 @@ import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
 import main.simpledog.mobile.app.rest.parsers.ItemResponseParser;
-import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
-import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
+import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,7 +26,7 @@ public class ListItemLoader {
 
     protected  Integer loadItemTimeout = 5000;
 
-    protected  ListItemActivity itemActivity;
+    protected ListItemFragment itemActivity;
 
     public void loadItems(int page, String category, final LoadItemsInterface loadItemsInterface) {
         RequestParams params = prepareParams(page,category);

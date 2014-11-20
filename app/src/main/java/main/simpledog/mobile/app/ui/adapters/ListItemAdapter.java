@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
@@ -26,7 +25,7 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
     }
 
     public ListItemAdapter(Context context, List<Item> objects) {
-        super(context,R.layout.item_base,objects);
+        super(context,R.layout.item,objects);
         entries = objects;
     }
     public void addEntriesToTop(List<Item> entries) {
@@ -51,7 +50,7 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         ViewHolder viewHolder;
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_base,parent, false);
+            convertView = inflater.inflate(R.layout.item,parent, false);
             viewHolder = new ViewHolder();
             viewHolder.item_image_view = (ImageView)convertView.findViewById(R.id.itemIcon);
             viewHolder.item_title_view = (TextView)convertView.findViewById(R.id.itemListTitle);
