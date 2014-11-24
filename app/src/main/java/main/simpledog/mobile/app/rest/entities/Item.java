@@ -6,7 +6,7 @@ import org.json.JSONObject;
 
 public class Item {
 
-    public  String id;
+    public String id;
 
    public String City;
 
@@ -22,6 +22,14 @@ public class Item {
 
     public Item(){}
 
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getItem_description() {
         return item_description;
@@ -62,4 +70,9 @@ public class Item {
     public String getItem_title() {
         return item_title;
     }
+
+
+
 }
+
+

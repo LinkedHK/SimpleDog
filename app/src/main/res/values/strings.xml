@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">SimpleDog</string>
+    <string name="app_name">Simple Dog</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_list_item_fragmnent">ListItemFragmnent</string>
     <string name="action_settings">Settings</string>
@@ -13,6 +13,8 @@
     <string name="item_load_failure">Failed to load items. Please try again later.</string>
     <string name="item_title">Item Title</string>
     <string name="item_description">Item Description</string>
+    <string name="item_details_title">Large Text</string>
+    <string name="item_details_description">New Text</string>
 
 
 </resources>

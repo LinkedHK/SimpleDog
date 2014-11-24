@@ -3,9 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/qwerty">
-
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/fragmentContainer"
+                 android:id="@+id/listViewContainer"
                  android:layout_width="match_parent"
                  android:background="@android:color/white"
                  android:layout_height="wrap_content">

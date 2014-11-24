@@ -9,7 +9,7 @@ import java.util.Objects;
 
 public class ShowItem extends Item {
 
-    public  int id;
+
     public  String  title;
     public  String  description;
     public  String  category;
@@ -17,7 +17,6 @@ public class ShowItem extends Item {
     public  String  modified;
     public  String  location;
     public  String  rate;
-
 
     public ShowItem(JSONObject obj){
 

@@ -22,7 +22,7 @@ public class ListItemLoader {
 
     protected  String items_url = "/items";
 
-    protected String    show_item_url = "/show_item";
+    protected String  show_item_url = "/show_item";
 
     protected  Integer loadItemTimeout = 5000;
 
@@ -53,7 +53,7 @@ public class ListItemLoader {
 
         });
     }
-    public void showItem(int item_id,final LoadItemsInterface loadItemsInterface){
+    public void showItem(String item_id,final LoadItemsInterface loadItemsInterface){
         ItemResolverClient.get(show_item_url, new RequestParams("id",item_id), loadItemTimeout, new JsonHttpResponseHandler() {
             public void onStart() {
                 loadItemsInterface.onStart();
@@ -72,14 +72,11 @@ public class ListItemLoader {
             public void onFinish() {
                 loadItemsInterface.onFinish();
             }
-
         });
-
-
     }
 
-    RequestParams prepareParams(int page, String category){
 
+    RequestParams prepareParams(int page, String category){
         RequestParams params = new RequestParams();
         params.add("page",String.valueOf(page));
         if (category == null){
