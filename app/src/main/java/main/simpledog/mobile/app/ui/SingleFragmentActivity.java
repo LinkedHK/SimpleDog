@@ -5,36 +5,42 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import main.simpledog.mobile.app.R;
+import main.simpledog.mobile.app.rest.entities.Item;
+import main.simpledog.mobile.app.ui.fragments.ItemDetailsFragment;
+import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
 
 public abstract class SingleFragmentActivity extends FragmentActivity {
 
 
-    public String fragment_tag = "";
+
+    private ViewPager mViewPager;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        mViewPager = new ViewPager(this);
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment =  fragmentManager.findFragmentById(R.id.listViewContainer);
         if(fragment == null){
-            fragment = createFragment();
+            fragment = new ListItemFragment();
             fragmentManager.beginTransaction()
-                    .add(R.id.listViewContainer,fragment,getFragment_tag())
+                    .add(R.id.listViewContainer, fragment, ListItemFragment.TAG_ID)
                     .commit();
+
+
         }
+
     }
 
-    protected abstract Fragment createFragment();
+    protected Fragment createFragment() {
 
-    public String getFragment_tag() {
-        return fragment_tag;
+        return new ListItemFragment();
     }
 
-    public void setFragment_tag(String fragment_tag) {
-        this.fragment_tag = fragment_tag;
-    }
 }
 

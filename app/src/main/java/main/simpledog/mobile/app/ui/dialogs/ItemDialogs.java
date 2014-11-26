@@ -21,7 +21,7 @@ public class ItemDialogs extends DialogFragment {
         alert.setTitle(R.string.item_load_failure_title);
         alert.setMessage(R.string.item_load_failure);
         alert.create();
-
+        alert.show();
     }
 
 

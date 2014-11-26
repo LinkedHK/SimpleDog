@@ -44,9 +44,14 @@ public class ListItemLoader {
                 loadItemsInterface.onSuccess(statusCode,items);
 
             }
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 loadItemsInterface.onFailure(statusCode);
             }
+
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                loadItemsInterface.onFailure(statusCode);
+            }
+
             public void onFinish() {
                 loadItemsInterface.onFinish();
             }
@@ -66,9 +71,13 @@ public class ListItemLoader {
 
                 loadItemsInterface.onSuccess(statusCode, item);
             }
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 loadItemsInterface.onFailure(statusCode);
             }
+            public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                loadItemsInterface.onFailure(statusCode);
+            }
+
             public void onFinish() {
                 loadItemsInterface.onFinish();
             }

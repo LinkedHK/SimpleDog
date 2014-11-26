@@ -2,10 +2,10 @@ package main.simpledog.mobile.app.ui.fragments;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.*;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
+import main.simpledog.mobile.app.ui.ItemListPagerActivity;
 import main.simpledog.mobile.app.ui.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
@@ -31,17 +32,22 @@ public class ListItemFragment extends ListFragment {
 
     private ListItemLoader itemLoader = new ListItemLoader();
 
+    private ViewPager mViewPager;
+
     OnItemSelectedListener mItemSelectedListener;
 
-
-    public static final String TAG_ID = "list_item_tag";
+    public static final String TAG_ID = "list_item";
 
     public void onViewCreated (View view, Bundle savedInstanceState) {
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
         itemLoader.loadItems(0,null,loadItemsCallback);
         getListView().setOnScrollListener(scrollItemListener);
-
     }
+    public void onCreate ( Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
+    }
+
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
@@ -56,13 +62,13 @@ public class ListItemFragment extends ListFragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.item_list, container, false);
     }
-
     ScrollItemListener scrollItemListener = new ScrollItemListener() {
         @Override
         public void onLoadMore(int page, int totalItemsCount) {
             itemLoader.loadItems(page,null,loadItemsCallback);
         }
     };
+
 
 
     ListItemLoader.LoadItemsInterface loadItemsCallback  = new ListItemLoader.LoadItemsInterface() {
@@ -93,9 +99,10 @@ public class ListItemFragment extends ListFragment {
 
     public void onListItemClick(ListView l, View v, int position, long id) {
         Item item = (Item) getListAdapter().getItem(position);
-        showItem(item.id,position);
+       // showItem(item.id,position);
+        mItemSelectedListener.itemSelected(item.id,position);
+        
     }
-
     void showItem(String item_id, int position){
         // We can display everything in-place with fragments, so update
         // the list to highlight the selected item and show the data.
@@ -110,21 +117,24 @@ public class ListItemFragment extends ListFragment {
 
             FragmentTransaction transaction = getFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.itemDetailsContainer,detailsFragment,ItemDetailsFragment.TAG)
+                    .replace(R.id.itemDetailsContainer, detailsFragment, ItemDetailsFragment.TAG)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction.addToBackStack(null);
             transaction.commit();
-
         }
-
     }
     public ListItemAdapter getAdapter() {
         return adapter;
     }
 
     public interface OnItemSelectedListener{
-        void itemSelected(String item_id);
+        void itemSelected(String item_id, int position);
     }
 
+
+
+    public interface onLoaderSetup{
+        void adapterIsReady();
+    }
 
 }

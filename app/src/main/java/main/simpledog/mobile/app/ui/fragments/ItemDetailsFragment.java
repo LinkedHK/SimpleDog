@@ -16,6 +16,7 @@ import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
 import main.simpledog.mobile.app.ui.ListItemLoader;
+import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 
 import java.util.List;
 
@@ -54,33 +55,20 @@ public class ItemDetailsFragment extends Fragment {
                 ShowItem item = (ShowItem)items.get(0);
                 itemTitle.setText(item.title);
                 itemDescription.setText(item.description);
-
             }
-
             @Override
             public void onFailure(int statusCode) {
-
+                ItemDialogs.itemLoadFailure(getActivity());
             }
-
             @Override
             public void onFinish() {
                 progressBar.setVisibility(View.GONE);
 
             }
         });
-
-
-
-
-
     }
-
-
-
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.item_details, container, false);
     }
