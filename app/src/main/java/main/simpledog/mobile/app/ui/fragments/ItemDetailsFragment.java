@@ -32,9 +32,7 @@ public class ItemDetailsFragment extends Fragment {
    private TextView itemTitle;
     private TextView itemDescription;
     private ListItemLoader itemLoader;
-
     private ProgressBar progressBar;
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -63,7 +61,6 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onFinish() {
                 progressBar.setVisibility(View.GONE);
-
             }
         });
     }

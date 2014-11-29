@@ -18,7 +18,6 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
 
     private ViewPager mViewPager;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,16 +30,11 @@ public abstract class SingleFragmentActivity extends FragmentActivity {
             fragmentManager.beginTransaction()
                     .add(R.id.listViewContainer, fragment, ListItemFragment.TAG_ID)
                     .commit();
-
-
         }
-
     }
 
-    protected Fragment createFragment() {
 
-        return new ListItemFragment();
-    }
+
 
 }
 

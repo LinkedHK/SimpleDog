@@ -33,6 +33,7 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
         assertNotNull(listItemFragment.getAdapter());
         solo.clickInList(1);
         Thread.sleep(10000);
+      
 
     }
 }

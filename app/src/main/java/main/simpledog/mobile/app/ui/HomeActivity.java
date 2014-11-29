@@ -1,22 +1,38 @@
 package main.simpledog.mobile.app.ui;
 
 
-import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
+import main.simpledog.mobile.app.R;
+import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.fragments.ItemDetailsFragment;
 import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
+import main.simpledog.mobile.app.ui.fragments.ListItemPagerFragment;
 
 public class HomeActivity extends SingleFragmentActivity implements ListItemFragment.OnItemSelectedListener{
 
-
     @Override
-    public void itemSelected(String item_id, int position) {
-        Intent i = new Intent(this, ItemListPagerActivity.class);
-        i.putExtra(ItemDetailsFragment.ITEM_ID,item_id);
-        i.putExtra(ItemDetailsFragment.POSITION,position);
+    public void itemSelected(int position) {
+        ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
 
-        startActivity(i);
+        ListItemAdapter itemAdapter = ((ListItemFragment) getSupportFragmentManager()
+                .findFragmentByTag(ListItemFragment.TAG_ID)).getAdapter();
 
+        Bundle args = new Bundle();
+        args.putInt(ItemDetailsFragment.POSITION,position);
+        if(pagerFragment == null ||
+                itemAdapter.getCount() != pagerFragment.getItemsAdapter().getCount()){
+            pagerFragment = new ListItemPagerFragment();
+            pagerFragment.setArguments(args);
+            FragmentTransaction transaction =
+                    getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.itemPagerContainer, pagerFragment, ListItemPagerFragment.TAG_ID)
+                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction.addToBackStack(ListItemPagerFragment.TAG_ID);
+                transaction.commit();
+        }else {
+            pagerFragment.setArguments(args);
+        }
     }
 }

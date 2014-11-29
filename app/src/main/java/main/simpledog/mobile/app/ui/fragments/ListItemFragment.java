@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
-import main.simpledog.mobile.app.ui.ItemListPagerActivity;
 import main.simpledog.mobile.app.ui.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
@@ -69,8 +68,6 @@ public class ListItemFragment extends ListFragment {
         }
     };
 
-
-
     ListItemLoader.LoadItemsInterface loadItemsCallback  = new ListItemLoader.LoadItemsInterface() {
         @Override
         public void onStart() {
@@ -99,8 +96,8 @@ public class ListItemFragment extends ListFragment {
 
     public void onListItemClick(ListView l, View v, int position, long id) {
         Item item = (Item) getListAdapter().getItem(position);
-       // showItem(item.id,position);
-        mItemSelectedListener.itemSelected(item.id,position);
+    //   showItem(item.id,position);
+       mItemSelectedListener.itemSelected(position);
         
     }
     void showItem(String item_id, int position){
@@ -128,10 +125,8 @@ public class ListItemFragment extends ListFragment {
     }
 
     public interface OnItemSelectedListener{
-        void itemSelected(String item_id, int position);
+        void itemSelected(int position);
     }
-
-
 
     public interface onLoaderSetup{
         void adapterIsReady();
