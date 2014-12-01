@@ -27,6 +27,7 @@ public class ListItemPagerFragment extends Fragment {
         mViewPager = (ViewPager) getView().findViewById(R.id.pager);
         mViewPager.setAdapter(new ListItemPagerAdapter(getActivity().getSupportFragmentManager()));
         mViewPager.setCurrentItem(getArguments().getInt(ItemDetailsFragment.POSITION));
+
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,9 +35,10 @@ public class ListItemPagerFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.item_list_pager, container,
                 false);
-
         return view;
     }
+
+
    private class  ListItemPagerAdapter extends FragmentStatePagerAdapter{
        ListItemPagerAdapter(FragmentManager manager){
            super(manager);

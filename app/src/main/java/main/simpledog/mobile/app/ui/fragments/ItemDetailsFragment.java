@@ -1,12 +1,12 @@
 package main.simpledog.mobile.app.ui.fragments;
 
+import android.app.ActionBar;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,12 +22,9 @@ import java.util.List;
 
 public class ItemDetailsFragment extends Fragment {
 
-
     public final static String ITEM_ID = "item_id";
     public final static String POSITION = "position";
-    public final static String TAG = "item_details";
-    public String relative_url;
-
+    public final static String TAG_ID = "item_details";
 
    private TextView itemTitle;
     private TextView itemDescription;
@@ -37,6 +34,8 @@ public class ItemDetailsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
+       // setHasOptionsMenu(true); // Show options
+
         itemTitle = (TextView) getView().findViewById(R.id.itemDetailsTitle);
         itemDescription = (TextView) getView().findViewById(R.id.itemDetailsDescription);
         progressBar = (ProgressBar) getView().findViewById(R.id.showDetailsLoad);
@@ -46,7 +45,6 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onStart() {
                 progressBar.setVisibility(View.VISIBLE);
-
             }
             @Override
             public void onSuccess(int statusCode, List<Item> items) {
@@ -63,6 +61,16 @@ public class ItemDetailsFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
+
+    }
+
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+
+        inflater.inflate(R.menu.item_details_menu, menu);
+        super.onCreateOptionsMenu(menu,inflater);
+
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -87,13 +95,5 @@ public class ItemDetailsFragment extends Fragment {
         return getArguments().getString(ITEM_ID);
     }
 
-    public String getRelative_url() {
-        if(relative_url == null){
-            Uri.Builder builder;
-            builder = Uri.parse(ItemResolverClient.getAbsoluteUrl("/show_item")).buildUpon();
-            builder.appendEncodedPath(getItemId());
-            relative_url = builder.toString();
-        }
-        return relative_url;
-    }
+
 }

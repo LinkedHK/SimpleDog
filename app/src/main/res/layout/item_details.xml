@@ -7,8 +7,6 @@
               android:background="@android:color/white"
 
               >
-
-
     <TextView
             android:layout_marginTop="10dp"
             android:textColor="@android:color/holo_blue_dark"

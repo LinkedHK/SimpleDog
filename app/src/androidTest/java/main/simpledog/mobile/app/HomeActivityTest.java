@@ -32,8 +32,8 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
         Thread.sleep(2000);
         assertNotNull(listItemFragment.getAdapter());
         solo.clickInList(1);
-        Thread.sleep(10000);
-      
+        Thread.sleep(5000);
+        solo.clickOnActionBarHomeButton();
 
     }
 }
