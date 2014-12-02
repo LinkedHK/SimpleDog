@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.robotium.solo.Solo;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.ui.HomeActivity;
+import main.simpledog.mobile.app.ui.fragments.CategoriesListFragment;
 import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
 
 public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActivity> {
@@ -25,15 +26,17 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
     }
     public void testOpensListActivity() throws InterruptedException{
         solo.waitForFragmentById(R.id.listViewContainer);
-        ListItemFragment listItemFragment = (ListItemFragment)
+        CategoriesListFragment categoriesListFragment = (CategoriesListFragment)
                 getActivity().getSupportFragmentManager()
-                .findFragmentByTag(ListItemFragment.TAG_ID);
-        assertEquals(true,listItemFragment.isVisible());
+                .findFragmentByTag(CategoriesListFragment.TAG_ID);
+        assertEquals(true,categoriesListFragment.isVisible());
         Thread.sleep(2000);
-        assertNotNull(listItemFragment.getAdapter());
+        assertNotNull(categoriesListFragment.getCategoryListAdapter());
         solo.clickInList(1);
         Thread.sleep(5000);
-        solo.clickOnActionBarHomeButton();
+        solo.clickInList(1);
+        Thread.sleep(5000);
+     //   solo.clickOnActionBarHomeButton();
 
     }
 }

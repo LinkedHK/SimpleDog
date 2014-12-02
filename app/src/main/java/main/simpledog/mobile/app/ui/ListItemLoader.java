@@ -7,6 +7,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
+import main.simpledog.mobile.app.rest.entities.ItemCategory;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
 import main.simpledog.mobile.app.rest.parsers.ItemResponseParser;
 import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
@@ -20,13 +21,15 @@ import java.util.List;
 
 public class ListItemLoader {
 
-    protected  String items_url = "/items";
+    protected  String items_url = "/browse_by";
 
     protected String  show_item_url = "/show_item";
 
-    protected  Integer loadItemTimeout = 5000;
+    public static final String item_cat_path = "/list_cat";
 
-    protected ListItemFragment itemActivity;
+
+    public  static  Integer loadItemTimeout = 5000;
+
 
     public void loadItems(int page, String category, final LoadItemsInterface loadItemsInterface) {
         RequestParams params = prepareParams(page,category);
@@ -84,14 +87,13 @@ public class ListItemLoader {
         });
     }
 
-
     RequestParams prepareParams(int page, String category){
         RequestParams params = new RequestParams();
         params.add("page",String.valueOf(page));
         if (category == null){
             params.add("category","information-technology");
         }else {
-            params.add("category",category);
+            params.add(ListItemFragment.CATEGORY_ID,category);
         }
         return  params;
     };

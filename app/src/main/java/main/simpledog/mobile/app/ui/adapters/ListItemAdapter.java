@@ -41,9 +41,9 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
     public void addEntriesToBottom(List<Item> entries) {
         // Add entries to the bottom of the list
         this.entries.addAll(entries);
-
         notifyDataSetChanged();
     }
+
 
 
     public View getView(int position, View convertView, ViewGroup parent) {

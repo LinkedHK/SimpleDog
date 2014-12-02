@@ -23,16 +23,24 @@ import main.simpledog.mobile.app.ui.listeners.ScrollItemListener;
 import java.util.List;
 
 
-public class ListItemFragment extends AbstractListFragment {
+public class ListItemFragment extends ListFragment {
 
+    protected ProgressBar loaderView;
+
+    protected ListItemAdapter adapter;
+
+    protected ListItemLoader itemLoader = new ListItemLoader();
 
     public static final String TAG_ID = "list_item";
+    public static final String CATEGORY_ID = "category";
 
     private   ListItemFragment.OnItemSelectedListener mItemSelectedListener;
 
+
     public void onViewCreated (View view, Bundle savedInstanceState) {
-        super.onViewCreated(view,savedInstanceState);
-        getItemLoader().loadItems(0,null,loadItemsCallback);
+        loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
+        itemLoader.loadItems(0, getArguments().getString(CATEGORY_ID), loadItemsCallback);
+
         getListView().setOnScrollListener(scrollItemListener);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -68,6 +76,11 @@ public class ListItemFragment extends AbstractListFragment {
                 setListAdapter(adapter);
             }else {
                 adapter.addEntriesToBottom(items);
+                ListItemPagerFragment listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
+                if(listItemPager != null){
+                    /** Notify about new Data */
+                    listItemPager.getmViewPager().getAdapter().notifyDataSetChanged();
+                }
             }
         }
         @Override
@@ -90,6 +103,7 @@ public class ListItemFragment extends AbstractListFragment {
         void itemSelected(int position);
     }
 
-
-
+    public ListItemAdapter getAdapter() {
+        return adapter;
+    }
 }

@@ -2,6 +2,7 @@ package main.simpledog.mobile.app.ui;
 
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
+import main.simpledog.mobile.app.ui.fragments.CategoriesListFragment;
 import main.simpledog.mobile.app.ui.fragments.ItemDetailsFragment;
 import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
 import main.simpledog.mobile.app.ui.fragments.ListItemPagerFragment;
@@ -52,30 +54,31 @@ public class HomeActivity extends FragmentActivity implements
     }
 
     public void initDefaultFragment(){
-
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment =  fragmentManager.findFragmentById(R.id.listViewContainer);
         if(fragment == null){
-            fragment = new ListItemFragment();
+            fragment = new CategoriesListFragment();
             fragmentManager.beginTransaction()
-                    .add(R.id.listViewContainer, fragment, ListItemFragment.TAG_ID)
+                    .add(R.id.listViewContainer, fragment, CategoriesListFragment.TAG_ID)
                     .commit();
         }
 
     }
 
+
     @Override
     public void itemSelected(int position) {
         ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
 
+
         ListItemAdapter itemAdapter = ((ListItemFragment) getSupportFragmentManager()
                 .findFragmentByTag(ListItemFragment.TAG_ID)).getAdapter();
-        Bundle args = new Bundle();
-        args.putInt(ItemDetailsFragment.POSITION,position);
 
         if(pagerFragment == null ||
                 itemAdapter.getCount() != pagerFragment.getItemsAdapter().getCount()){
             /** Creating a new fragment if fragment either is null or number of items doesn't match to the items in list fragment  */
+            Bundle args = new Bundle();
+            args.putInt(ItemDetailsFragment.POSITION,position);
 
             pagerFragment = new ListItemPagerFragment();
             pagerFragment.setArguments(args);
@@ -87,7 +90,8 @@ public class HomeActivity extends FragmentActivity implements
                 transaction.commit();
         }else {
             /** if ok then just pass data of clicked item to a details fragment  */
-            pagerFragment.setArguments(args);
+            // http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
+            pagerFragment.getArguments().putInt(ItemDetailsFragment.POSITION,position);
         }
     }
 

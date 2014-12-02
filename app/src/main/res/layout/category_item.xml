@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:paddingTop="10dp"
+              android:layout_height="match_parent">
+    <TableLayout
+
+            android:layout_width="match_parent"
+            android:stretchColumns="0,1"
+            android:id="@+id/categoryItem"
+            android:layout_height="wrap_content">
+
+        <TableRow
+                android:background="@color/list_background"
+                android:id="@+id/categoryRow"
+                android:layout_width="fill_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/default_cat_name"
+                    android:gravity="right"
+                    android:textColor="@android:color/background_dark"
+                    android:id="@+id/categoryNameText"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/default_items_number"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:id="@+id/categoryCountText"/>
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

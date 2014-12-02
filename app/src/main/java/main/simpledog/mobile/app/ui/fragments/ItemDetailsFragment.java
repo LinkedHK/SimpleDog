@@ -40,7 +40,6 @@ public class ItemDetailsFragment extends Fragment {
         itemDescription = (TextView) getView().findViewById(R.id.itemDetailsDescription);
         progressBar = (ProgressBar) getView().findViewById(R.id.showDetailsLoad);
         itemLoader = new ListItemLoader();
-
         itemLoader.showItem(getItemId(), new ListItemLoader.LoadItemsInterface() {
             @Override
             public void onStart() {
@@ -65,13 +64,6 @@ public class ItemDetailsFragment extends Fragment {
     }
 
 
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-
-        inflater.inflate(R.menu.item_details_menu, menu);
-        super.onCreateOptionsMenu(menu,inflater);
-
-    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
