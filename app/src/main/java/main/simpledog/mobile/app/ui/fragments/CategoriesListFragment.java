@@ -3,10 +3,12 @@ package main.simpledog.mobile.app.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +35,12 @@ public class CategoriesListFragment extends ListFragment {
 
   protected   ListCategoriesAdapter categoryListAdapter;
     protected ProgressBar loaderView;
-    private  OnCategorySelectedListener categorySelectedListener;
 
     public static final String TAG_ID = "categories_list";
+
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setTitle();
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
         loadCategories();
     }
@@ -68,23 +71,28 @@ public class CategoriesListFragment extends ListFragment {
         });
 
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Set title
+        setTitle();
+    }
+    public  void setTitle(){
+            getActivity().getActionBar()
+                    .setTitle(R.string.page_categories_jobs);
 
-
-
+    }
     public void onListItemClick(ListView l, View v, int position, long id) {
         ItemCategory itemCategory = getCategoryListAdapter().getItem(position);
-        showItems(String.valueOf( itemCategory.id));
+        showItems(String.valueOf( itemCategory.id),itemCategory.name,itemCategory.items_count);
     }
 
-    public void showItems(String category){
+    private void showItems(String cat_id,String cat_name, int item_num){
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         ListItemFragment fragment =  (ListItemFragment) fragmentManager.findFragmentByTag(ListItemFragment.TAG_ID);
-
         if(fragment == null){
-            Bundle args = new Bundle();
-            args.putString(ListItemFragment.CATEGORY_ID,category);
             fragment = new ListItemFragment();
-            fragment.setArguments(args);
+            fragment.setParams(cat_id, cat_name, item_num);
             fragmentManager.beginTransaction()
                     .replace(R.id.viewContainer, fragment, ListItemFragment.TAG_ID)
                     .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
@@ -92,9 +100,10 @@ public class CategoriesListFragment extends ListFragment {
                     .commit();
         }else {
             /**
+             * Just replace args If fragment already exists
              * http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
              * */
-            fragment.getArguments().putString(ListItemFragment.CATEGORY_ID,category);
+            fragment.updateParams(cat_id,cat_name,item_num);
         }
     }
 
@@ -108,9 +117,6 @@ public class CategoriesListFragment extends ListFragment {
         return loaderView;
     }
 
-    public interface OnCategorySelectedListener{
-        void categorySelected(int position);
-    }
 
     public ListCategoriesAdapter getCategoryListAdapter() {
         return categoryListAdapter;

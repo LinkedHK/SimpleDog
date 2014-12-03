@@ -32,11 +32,12 @@ public class HomeActivityTest extends ActivityInstrumentationTestCase2<HomeActiv
         assertEquals(true,categoriesListFragment.isVisible());
         Thread.sleep(2000);
         assertNotNull(categoriesListFragment.getCategoryListAdapter());
-        solo.clickInList(1);
-        Thread.sleep(5000);
-        solo.clickInList(1);
-        Thread.sleep(5000);
-     //   solo.clickOnActionBarHomeButton();
+        solo.clickInList(1); // Select first Job category
+        Thread.sleep(2000);
+        solo.clickInList(1);// Select first Job Item
+        Thread.sleep(2000);
+        solo.clickOnActionBarHomeButton(); // back to List Jobs
+        solo.clickOnActionBarHomeButton(); // back to List Categories
 
     }
 }

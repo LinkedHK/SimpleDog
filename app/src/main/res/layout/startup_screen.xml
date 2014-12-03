@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/applicationTitle"
+            android:id="@+id/applicationTitle" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:textColor="@color/application_title"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            android:layout_marginTop="144dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/subSloginTitle"
+            android:id="@+id/subTitleSlogin" android:layout_below="@+id/applicationTitle" android:layout_centerHorizontal="true"
+            android:layout_marginTop="104dp"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/getStartedButton"
+            android:id="@+id/getStartedButton" android:layout_below="@+id/subTitleSlogin" android:layout_centerHorizontal="true"
+            android:background="@android:color/holo_orange_light"
+            android:width="200sp"
+            android:layout_marginTop="56dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/termsOfService"
+            android:id="@+id/termsOfUseView" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
+</RelativeLayout>

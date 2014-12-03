@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Simple Dog</string>
+    <string name="app_name">Classy Jobs HK</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_list_item_fragmnent">ListItemFragmnent</string>
     <string name="action_settings">Settings</string>
@@ -17,6 +17,13 @@
     <string name="item_details_description">New Text</string>
     <string name="default_cat_name">Digital Marketing</string>
     <string name="default_items_number">(1)</string>
+    <string name="default_jobs_list">Jobs</string>
+
+    <string name="page_categories_jobs"> Jobs Categories </string>
+    <string name="applicationTitle">Classy Jobs HK</string>
+    <string name="subSloginTitle">An Easy Way to find a job in Hong Kong!</string>
+    <string name="getStartedButton">Get Started</string>
+    <string name="termsOfService">Terms Of Service</string>
 
 
 </resources>

@@ -31,17 +31,23 @@ public class ListItemFragment extends ListFragment {
 
     protected ListItemLoader itemLoader = new ListItemLoader();
 
+
+    private  int page_num;
     public static final String TAG_ID = "list_item";
     public static final String CATEGORY_ID = "category";
-
-    private   ListItemFragment.OnItemSelectedListener mItemSelectedListener;
-
+    public static final String CATEGORY_NAME = "category_name";
+    public static final String ITEM_NUM = "item_num";
+    private  ListItemFragment.OnItemSelectedListener mItemSelectedListener;
 
     public void onViewCreated (View view, Bundle savedInstanceState) {
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
-        itemLoader.loadItems(0, getArguments().getString(CATEGORY_ID), loadItemsCallback);
-
+        itemLoader =  new ListItemLoader();
+        setTitle();
+        loadItems(0);
         getListView().setOnScrollListener(scrollItemListener);
+    }
+    public void loadItems(int page){
+        itemLoader.loadItems(page, getCurrentCategory(), loadItemsCallback);
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,9 +57,19 @@ public class ListItemFragment extends ListFragment {
     ScrollItemListener scrollItemListener = new ScrollItemListener() {
         @Override
         public void onLoadMore(int page, int totalItemsCount) {
-            itemLoader.loadItems(page,null,loadItemsCallback);
+            loadItems(page);
         }
+
     };
+    public void onResume(){
+        super.onResume();
+        setTitle();
+    }
+    private void setTitle(){
+        String cat = getArguments().getString(CATEGORY_NAME);
+        String def_list_name = getString(R.string.default_jobs_list);
+        getActivity().getActionBar().setTitle(cat + " " + def_list_name);
+    }
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -94,11 +110,8 @@ public class ListItemFragment extends ListFragment {
     };
 
     public void onListItemClick(ListView l, View v, int position, long id) {
-
         mItemSelectedListener.itemSelected(position);
-
     }
-
     public interface OnItemSelectedListener{
         void itemSelected(int position);
     }
@@ -106,4 +119,22 @@ public class ListItemFragment extends ListFragment {
     public ListItemAdapter getAdapter() {
         return adapter;
     }
+
+    public String getCurrentCategory() {
+        return getArguments().getString(CATEGORY_ID);
+    }
+    public void setParams(String cat_id,String cat_name, int item_num  ){
+        Bundle args = new Bundle();
+        args.putString(CATEGORY_ID,cat_id);
+        args.putString(CATEGORY_NAME,cat_name);
+        args.putInt(ITEM_NUM, item_num);
+        setArguments(args);
+    }
+    public void updateParams(String cat_id,String cat_name, int item_num  ){
+        getArguments().putString(CATEGORY_ID,cat_id);
+        getArguments().putString(CATEGORY_NAME,cat_name);
+        getArguments().putInt(ITEM_NUM,item_num);
+    }
+
+
 }

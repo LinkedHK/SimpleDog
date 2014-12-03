@@ -8,8 +8,7 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 public class ShowItem extends Item {
-
-
+    
     public  String  title;
     public  String  description;
     public  String  category;
@@ -19,12 +18,10 @@ public class ShowItem extends Item {
     public  String  rate;
 
     public ShowItem(JSONObject obj){
-
     }
 
     ShowItem toObj(JSONObject obj){
         Gson g = new GsonBuilder().create();
-
-      return   g.fromJson(obj.toString(),this.getClass());
+      return  g.fromJson(obj.toString(),this.getClass());
     }
 }

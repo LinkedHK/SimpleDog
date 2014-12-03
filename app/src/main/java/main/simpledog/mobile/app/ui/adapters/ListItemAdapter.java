@@ -58,7 +58,7 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         }
         viewHolder = (ViewHolder) convertView.getTag();
         Item item = getItem(position);
-        viewHolder.item_title_view.setText("["+ position + "] " + item.getItem_title());
+        viewHolder.item_title_view.setText("["+ position + "] " + item.item_title);
 
         return  convertView;
     }

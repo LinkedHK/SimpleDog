@@ -25,11 +25,14 @@ public class ItemResponseParser extends JsonBuilderBase<Item> {
         }
         return  preparedList;
     }
-
-    public  Item BuildItem(JSONObject res) throws  JSONException{
+    public Item BuildItem(JSONObject res) throws  JSONException{
             Item item = new Item();
             item.item_title = getFirst(res,"item_title","item_descriptions");
             item.id = res.getString("id");
+            JSONObject location =  res.getJSONObject("item_location");
+            item.city = location.getString("s_city");
+            item.district = location.getString("s_district");
+            item.country = location.getString("s_country");
             return  item;
     }
 }

@@ -30,7 +30,6 @@ public class ItemDetailsFragment extends Fragment {
     private TextView itemDescription;
     private ListItemLoader itemLoader;
     private ProgressBar progressBar;
-
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
@@ -60,8 +59,8 @@ public class ItemDetailsFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
             }
         });
-
     }
+
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,9 +78,6 @@ public class ItemDetailsFragment extends Fragment {
         return  fragment;
     }
 
-    public int getShowIndex() {
-        return getArguments().getInt(POSITION);
-    }
 
     public String getItemId() {
         return getArguments().getString(ITEM_ID);

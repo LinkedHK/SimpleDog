@@ -3,6 +3,7 @@ package main.simpledog.mobile.app.ui;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,6 +20,7 @@ import main.simpledog.mobile.app.ui.fragments.ListItemPagerFragment;
 public class HomeActivity extends FragmentActivity implements
         ListItemFragment.OnItemSelectedListener{
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +30,31 @@ public class HomeActivity extends FragmentActivity implements
     }
 
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */
-    FragmentManager.OnBackStackChangedListener backStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
+    private FragmentManager.OnBackStackChangedListener backStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
         public void onBackStackChanged() {
-            int stackHeight = getSupportFragmentManager().getBackStackEntryCount();
-            if(stackHeight > 0){
-                getActionBar().setHomeButtonEnabled(true);
-                getActionBar().setDisplayHomeAsUpEnabled(true);
-            }else {
-                getActionBar().setHomeButtonEnabled(false);
-                getActionBar().setDisplayHomeAsUpEnabled(false);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            if (fragmentManager != null) {
+                /** Set Back Button */
+                int stackHeight = fragmentManager.getBackStackEntryCount();
+                boolean  has_stack = stackHeight > 1;
+                getActionBar().setHomeButtonEnabled(has_stack);
+                getActionBar().setDisplayHomeAsUpEnabled(has_stack);
+                /**
+                 *  http://stackoverflow.com/questions/6503189/fragments-onresume-from-back-stack/6505060#6505060
+                 *  Call on Resume Fragment Method To update menu
+                 *
+                 * */
+                if(stackHeight > 0){
+                    Fragment fragment = fragmentManager.getFragments().get(stackHeight-1);
+                    fragment.onResume();
+                }
             }
         }
     };
-
+    /**
+     * Fix Pop back to previous fragment
+     * */
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -60,13 +73,13 @@ public class HomeActivity extends FragmentActivity implements
             fragment = new CategoriesListFragment();
             fragmentManager.beginTransaction()
                     .add(R.id.listViewContainer, fragment, CategoriesListFragment.TAG_ID)
+                    .addToBackStack(CategoriesListFragment.TAG_ID)
                     .commit();
         }
 
     }
 
 
-    @Override
     public void itemSelected(int position) {
         ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
 
@@ -93,6 +106,21 @@ public class HomeActivity extends FragmentActivity implements
             // http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
             pagerFragment.getArguments().putInt(ItemDetailsFragment.POSITION,position);
         }
+    }
+    @Override
+    public void onBackPressed() {
+       int count = getSupportFragmentManager().getBackStackEntryCount();
+        if(count <= 1){
+            Intent setIntent = new Intent(Intent.ACTION_MAIN);
+            setIntent.addCategory(Intent.CATEGORY_HOME);
+            setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(setIntent);
+
+            // finish() return to startup screen
+        }else {
+            super.onBackPressed();
+        }
+
     }
 
 
