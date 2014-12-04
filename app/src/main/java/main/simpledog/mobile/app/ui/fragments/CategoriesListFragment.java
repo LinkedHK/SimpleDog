@@ -1,17 +1,14 @@
 package main.simpledog.mobile.app.ui.fragments;
 
 
+
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import com.google.gson.GsonBuilder;
@@ -29,24 +26,26 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.List;
 
-public class CategoriesListFragment extends ListFragment {
+
+public class CategoriesListFragment extends ListFragment implements  Refreshable {
 
   protected   ListCategoriesAdapter categoryListAdapter;
     protected ProgressBar loaderView;
 
+
     public static final String TAG_ID = "categories_list";
 
+
+    public void onActivityCreated( Bundle savedInstanceState) {
+       super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setTitle();
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
         loadCategories();
     }
-
-
-
     private void loadCategories(){
         ItemResolverClient.get(ListItemLoader.item_cat_path, null,ListItemLoader.loadItemTimeout, new JsonHttpResponseHandler(){
             public void onStart() {
@@ -58,19 +57,22 @@ public class CategoriesListFragment extends ListFragment {
                 categoryListAdapter  = new ListCategoriesAdapter(getActivity(),items_set);
                 categoryListAdapter.notifyDataSetChanged();
                 setListAdapter(categoryListAdapter);
+
             }
             public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 ItemDialogs.itemLoadFailure(getActivity());
+
             }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 ItemDialogs.itemLoadFailure(getActivity());
             }
             public void onFinish() {
                 getLoaderView().setVisibility(View.INVISIBLE);
+
             }
         });
-
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -82,6 +84,19 @@ public class CategoriesListFragment extends ListFragment {
                     .setTitle(R.string.page_categories_jobs);
 
     }
+
+    @Override
+    public void refreshView() {
+        loadCategories();
+    }
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        setTitle();
+
+    }
+
+
     public void onListItemClick(ListView l, View v, int position, long id) {
         ItemCategory itemCategory = getCategoryListAdapter().getItem(position);
         showItems(String.valueOf( itemCategory.id),itemCategory.name,itemCategory.items_count);
@@ -107,6 +122,22 @@ public class CategoriesListFragment extends ListFragment {
         }
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.refresh_button_menu,menu);
+        super.onCreateOptionsMenu(menu,inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.refresh_button:
+                // Refreshing page
+                loadCategories();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -121,4 +152,7 @@ public class CategoriesListFragment extends ListFragment {
     public ListCategoriesAdapter getCategoryListAdapter() {
         return categoryListAdapter;
     }
+
+
+
 }

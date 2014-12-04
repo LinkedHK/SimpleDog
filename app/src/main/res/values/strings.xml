@@ -25,5 +25,6 @@
     <string name="getStartedButton">Get Started</string>
     <string name="termsOfService">Terms Of Service</string>
 
+    <string name="refresh_page_menu">Refresh Page</string>
 
 </resources>

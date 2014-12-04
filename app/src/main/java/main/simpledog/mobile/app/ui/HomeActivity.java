@@ -12,10 +12,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
-import main.simpledog.mobile.app.ui.fragments.CategoriesListFragment;
-import main.simpledog.mobile.app.ui.fragments.ItemDetailsFragment;
-import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
-import main.simpledog.mobile.app.ui.fragments.ListItemPagerFragment;
+import main.simpledog.mobile.app.ui.fragments.*;
 
 public class HomeActivity extends FragmentActivity implements
         ListItemFragment.OnItemSelectedListener{
@@ -47,7 +44,9 @@ public class HomeActivity extends FragmentActivity implements
                  * */
                 if(stackHeight > 0){
                     Fragment fragment = fragmentManager.getFragments().get(stackHeight-1);
-                    fragment.onResume();
+                    if(fragment != null){
+                        fragment.onResume();
+                    }
                 }
             }
         }
@@ -60,10 +59,32 @@ public class HomeActivity extends FragmentActivity implements
             case android.R.id.home:
                 getSupportFragmentManager().popBackStack();
                 break;
-            default:
+            case R.id.refresh_button:
+                refreshFragment();
                 break;
+            default:
+                return  super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    public void refreshFragment(){
+        int c = getSupportFragmentManager().getBackStackEntryCount();
+
+        if(c > 0){
+            Fragment fragment = getSupportFragmentManager().getFragments().get(c-1);
+
+
+            if(fragment != null){
+                try {
+                    Refreshable refreshable = (Refreshable)fragment;
+                    refreshable.refreshView();
+                }catch (ClassCastException e){
+
+                }
+
+            }
+        }
     }
 
     public void initDefaultFragment(){
@@ -76,13 +97,10 @@ public class HomeActivity extends FragmentActivity implements
                     .addToBackStack(CategoriesListFragment.TAG_ID)
                     .commit();
         }
-
     }
-
 
     public void itemSelected(int position) {
         ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
-
 
         ListItemAdapter itemAdapter = ((ListItemFragment) getSupportFragmentManager()
                 .findFragmentByTag(ListItemFragment.TAG_ID)).getAdapter();

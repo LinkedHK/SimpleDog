@@ -11,7 +11,7 @@
             android:text="@string/applicationTitle"
             android:id="@+id/applicationTitle" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
             android:textColor="@color/application_title"
-            android:textSize="35sp"
+            android:textSize="50sp"
             android:textStyle="bold"
             android:layout_marginTop="144dp"/>
     <TextView
@@ -20,6 +20,7 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/subSloginTitle"
             android:id="@+id/subTitleSlogin" android:layout_below="@+id/applicationTitle" android:layout_centerHorizontal="true"
+            android:textSize="25sp"
             android:layout_marginTop="104dp"/>
     <Button
             android:layout_width="wrap_content"
@@ -27,13 +28,15 @@
             android:text="@string/getStartedButton"
             android:id="@+id/getStartedButton" android:layout_below="@+id/subTitleSlogin" android:layout_centerHorizontal="true"
             android:background="@android:color/holo_orange_light"
-            android:width="200sp"
-            android:layout_marginTop="56dp"/>
+            android:textSize="20sp"
+            android:width="250sp"
+            android:layout_marginTop="70dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/termsOfService"
+            android:textSize="25sp"
             android:id="@+id/termsOfUseView" android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
 </RelativeLayout>

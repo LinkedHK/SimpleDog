@@ -23,7 +23,7 @@ import main.simpledog.mobile.app.ui.listeners.ScrollItemListener;
 import java.util.List;
 
 
-public class ListItemFragment extends ListFragment {
+public class ListItemFragment extends ListFragment implements  Refreshable {
 
     protected ProgressBar loaderView;
 
@@ -136,5 +136,9 @@ public class ListItemFragment extends ListFragment {
         getArguments().putInt(ITEM_NUM,item_num);
     }
 
-
+    @Override
+    public void refreshView() {
+        getAdapter().clear();
+        loadItems(0);
+    }
 }

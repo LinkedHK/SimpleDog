@@ -3,7 +3,7 @@
 System.setProperty("android_version", "4.1.1.4")
 buildscript {
     repositories {
-        mavenCentral()
+     mavenCentral()
        jcenter()
     }
     dependencies {
