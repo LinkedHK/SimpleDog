@@ -93,7 +93,6 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         setTitle();
-
     }
 
 
@@ -127,17 +126,6 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
         super.onCreateOptionsMenu(menu,inflater);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.refresh_button:
-                // Refreshing page
-                loadCategories();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
