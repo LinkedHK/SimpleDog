@@ -12,14 +12,13 @@ public class Item {
 
     public String district;
 
+    public String location;
+
     public String country;
 
-    public String item_title;
+    public String title;
 
-    public String item_description;
-
-    public String date;
-
+    public String created;
 
 
 }

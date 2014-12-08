@@ -4,14 +4,12 @@
             android:layout_width="match_parent"
             android:stretchColumns="0,1"
             android:id="@+id/categoryItem"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
             android:layout_height="wrap_content">
         <TableRow
-                android:background="@color/list_background"
-                android:id="@+id/categoryRow"
                 android:layout_width="fill_parent"
                 android:layout_gravity="center_vertical"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:layout_height="fill_parent">
             <TextView
                     android:layout_width="wrap_content"

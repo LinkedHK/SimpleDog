@@ -1,21 +1,19 @@
 package main.simpledog.mobile.app.ui;
 
 
-import android.util.Log;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
-import main.simpledog.mobile.app.rest.entities.ItemCategory;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
-import main.simpledog.mobile.app.rest.parsers.ItemResponseParser;
 import main.simpledog.mobile.app.ui.fragments.ListItemFragment;
 import org.apache.http.Header;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,14 +36,9 @@ public class ListItemLoader {
                 loadItemsInterface.onStart();
             }
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                List<Item> items = new ArrayList<Item>();
-                try {
-                    items  = new ItemResponseParser().Parse(response);
-                } catch (JSONException e) {
-                    Log.e("Json_Exception", e.getMessage());
-                }
-                loadItemsInterface.onSuccess(statusCode,items);
-
+                Type type = new TypeToken<ArrayList<Item>>(){}.getType();
+                ArrayList<Item> items_set  = (new GsonBuilder().create().fromJson(response.toString(),type));
+                loadItemsInterface.onSuccess(statusCode,items_set);
             }
             public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 loadItemsInterface.onFailure(statusCode);

@@ -11,7 +11,9 @@ public class ItemDialogs extends DialogFragment {
 
 
     public static void   itemLoadFailure(Context context){
+
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
+
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

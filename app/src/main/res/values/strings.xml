@@ -26,5 +26,11 @@
     <string name="termsOfService">Terms Of Service</string>
 
     <string name="refresh_page_menu">Refresh Page</string>
+    <string name="item_location">Location:</string>
+    <string name="item_location_info">Location Info</string>
+    <string name="item_default_company">Company:</string>
+    <string name="item_default_company_info">Company Not specified</string>
+    <string name="item_published_text">Published:</string>
+    <string name="item_published_text_default">Date</string>
 
 </resources>

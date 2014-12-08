@@ -22,6 +22,10 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
     static class ViewHolder {
         ImageView item_image_view;
         TextView item_title_view;
+        TextView item_location;
+        TextView item_published;
+        TextView item_company;
+
     }
 
     public ListItemAdapter(Context context, List<Item> objects) {
@@ -44,8 +48,6 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         notifyDataSetChanged();
     }
 
-
-
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if(convertView == null){
@@ -54,12 +56,16 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
             viewHolder = new ViewHolder();
             viewHolder.item_image_view = (ImageView)convertView.findViewById(R.id.itemIcon);
             viewHolder.item_title_view = (TextView)convertView.findViewById(R.id.itemListTitle);
+            viewHolder.item_location = (TextView)convertView.findViewById(R.id.locationInfo);
+            viewHolder.item_company = (TextView)convertView.findViewById(R.id.companyName);
+            viewHolder.item_published = (TextView)convertView.findViewById(R.id.itemPublishedDate);
             convertView.setTag(viewHolder);
         }
         viewHolder = (ViewHolder) convertView.getTag();
         Item item = getItem(position);
-        viewHolder.item_title_view.setText("["+ position + "] " + item.item_title);
-
+        viewHolder.item_title_view.setText("["+ position + "] " + item.title);
+        viewHolder.item_location.setText(item.location);
+        viewHolder.item_published.setText(item.created);
         return  convertView;
     }
 }
