@@ -9,8 +9,8 @@
 
 
     <string name="ok">OK</string>
-    <string name="item_load_failure_title">Failed to load items.</string>
-    <string name="item_load_failure">Failed to load items. Please try again later.</string>
+    <string name="item_load_failure_title">Failed to load data.</string>
+    <string name="item_load_failure">Failed to load data. Please try again later.</string>
     <string name="item_title">Item Title</string>
     <string name="item_description">Item Description</string>
     <string name="item_details_title">Large Text</string>
@@ -32,5 +32,6 @@
     <string name="item_default_company_info">Company Not specified</string>
     <string name="item_published_text">Published:</string>
     <string name="item_published_text_default">Date</string>
+    <string name="items_shown">%1$s Items Shown</string>
 
 </resources>

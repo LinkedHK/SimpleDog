@@ -2,7 +2,6 @@ package main.simpledog.mobile.app.ui;
 
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,11 +11,16 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
+import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import main.simpledog.mobile.app.ui.fragments.*;
+import main.simpledog.mobile.app.ui.utils.FragmentUtil;
 
 public class HomeActivity extends FragmentActivity implements
         ListItemFragment.OnItemSelectedListener{
 
+    ItemDialogs itemDialogs;
+
+    protected boolean refreshing = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +28,7 @@ public class HomeActivity extends FragmentActivity implements
         setContentView(R.layout.activity_home);
         initDefaultFragment();
         getSupportFragmentManager().addOnBackStackChangedListener(backStackChangedListener);
+
     }
 
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */
@@ -69,22 +74,30 @@ public class HomeActivity extends FragmentActivity implements
     }
 
     public void refreshFragment(){
-        int c = getSupportFragmentManager().getBackStackEntryCount();
 
-        if(c > 0){
-            Fragment fragment = getSupportFragmentManager().getFragments().get(c-1);
-
-
-            if(fragment != null){
-                try {
-                    Refreshable refreshable = (Refreshable)fragment;
-                    refreshable.refreshView();
-                }catch (ClassCastException e){
-
+            synchronized (this){
+                if(!refreshing){
+                    refreshing = true;
+                }else {
+                    return;
                 }
-
+                Fragment fragment = FragmentUtil.getCurrentFragment(this);
+                if(fragment != null){
+                    try {
+                        Refreshable refreshable = (Refreshable)fragment;
+                        refreshable.refreshView(new Finishable() {
+                            @Override
+                            public void onDone() {
+                                refreshing = false;
+                            }
+                        });
+                    }catch (ClassCastException e){
+                        refreshing = false;
+                    }
+                }else {
+                    refreshing = false;
+                }
             }
-        }
     }
 
     public void initDefaultFragment(){
@@ -101,7 +114,6 @@ public class HomeActivity extends FragmentActivity implements
 
     public void itemSelected(int position) {
         ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
-
         ListItemAdapter itemAdapter = ((ListItemFragment) getSupportFragmentManager()
                 .findFragmentByTag(ListItemFragment.TAG_ID)).getAdapter();
 
@@ -142,5 +154,10 @@ public class HomeActivity extends FragmentActivity implements
     }
 
 
-
+    public ItemDialogs getItemDialogs() {
+        if(itemDialogs == null){
+            itemDialogs = new ItemDialogs(this);
+        }
+        return itemDialogs;
+    }
 }

@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import java.util.Objects;
 
 public class ShowItem extends Item {
-
     public  String  description;
     public  String  category;
     public  String  rate;

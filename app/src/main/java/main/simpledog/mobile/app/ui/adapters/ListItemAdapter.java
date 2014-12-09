@@ -25,7 +25,6 @@ public class ListItemAdapter extends ArrayAdapter<Item> {
         TextView item_location;
         TextView item_published;
         TextView item_company;
-
     }
 
     public ListItemAdapter(Context context, List<Item> objects) {

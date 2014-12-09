@@ -17,6 +17,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.ItemCategory;
+import main.simpledog.mobile.app.ui.HomeActivity;
 import main.simpledog.mobile.app.ui.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListCategoriesAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
@@ -44,9 +45,14 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
-        loadCategories();
+        loadCategories(new Finishable() {
+            @Override
+            public void onDone() {
+
+            }
+        });
     }
-    private void loadCategories(){
+    private void loadCategories(final  Finishable finishable){
         ItemResolverClient.get(ListItemLoader.item_cat_path, null,ListItemLoader.loadItemTimeout, new JsonHttpResponseHandler(){
             public void onStart() {
                 getLoaderView().setVisibility(View.VISIBLE);
@@ -59,16 +65,14 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
                 setListAdapter(categoryListAdapter);
 
             }
-            public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                ItemDialogs.itemLoadFailure(getActivity());
 
-            }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                ItemDialogs.itemLoadFailure(getActivity());
+                ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
             }
+
             public void onFinish() {
                 getLoaderView().setVisibility(View.INVISIBLE);
-
+                finishable.onDone();
             }
         });
     }
@@ -80,14 +84,12 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
         setTitle();
     }
     public  void setTitle(){
-            getActivity().getActionBar()
-                    .setTitle(R.string.page_categories_jobs);
-
+        getActivity().getActionBar().setTitle(R.string.page_categories_jobs);
     }
 
     @Override
-    public void refreshView() {
-        loadCategories();
+    public void refreshView(Finishable finishable) {
+        loadCategories(finishable);
     }
 
     public void onAttach(Activity activity) {

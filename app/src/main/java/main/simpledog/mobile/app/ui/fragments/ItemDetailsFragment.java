@@ -15,6 +15,7 @@ import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
+import main.simpledog.mobile.app.ui.HomeActivity;
 import main.simpledog.mobile.app.ui.ListItemLoader;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 
@@ -34,7 +35,6 @@ public class ItemDetailsFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState){
         super.onActivityCreated(savedInstanceState);
        // setHasOptionsMenu(true); // Show options
-
         itemTitle = (TextView) getView().findViewById(R.id.itemDetailsTitle);
         itemDescription = (TextView) getView().findViewById(R.id.itemDetailsDescription);
         progressBar = (ProgressBar) getView().findViewById(R.id.showDetailsLoad);
@@ -51,8 +51,9 @@ public class ItemDetailsFragment extends Fragment {
                 itemDescription.setText(item.description);
             }
             @Override
-            public void onFailure(int statusCode) {
-                ItemDialogs.itemLoadFailure(getActivity());
+            public void onFailure(int statusCode)
+            {
+                ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
             }
             @Override
             public void onFinish() {

@@ -1,12 +1,7 @@
 package main.simpledog.mobile.app.ui.fragments;
-
-
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.*;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +9,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
+import main.simpledog.mobile.app.ui.HomeActivity;
 import main.simpledog.mobile.app.ui.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
@@ -22,17 +18,16 @@ import main.simpledog.mobile.app.ui.listeners.ScrollItemListener;
 
 import java.util.List;
 
-
 public class ListItemFragment extends ListFragment implements  Refreshable {
 
     protected ProgressBar loaderView;
 
     protected ListItemAdapter adapter;
 
-    protected ListItemLoader itemLoader = new ListItemLoader();
+    protected ListItemLoader itemLoader;
 
+    protected ItemDialogs itemDialogs;
 
-    private  int page_num;
     public static final String TAG_ID = "list_item";
     public static final String CATEGORY_ID = "category";
     public static final String CATEGORY_NAME = "category_name";
@@ -43,11 +38,49 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
         itemLoader =  new ListItemLoader();
         setTitle();
-        loadItems(0);
+        loadItems(0, new Finishable() {
+            @Override
+            public void onDone() {
+
+            }
+        });
         getListView().setOnScrollListener(scrollItemListener);
     }
-    public void loadItems(int page){
-        itemLoader.loadItems(page, getCurrentCategory(), loadItemsCallback);
+    public void loadItems(int page, final Finishable finishable){
+        itemLoader.loadItems(page, getCurrentCategory(), new ListItemLoader.LoadItemsInterface() {
+            @Override
+            public void onStart() {
+                loaderView.setVisibility(View.VISIBLE);
+            }
+            @Override
+            public void onSuccess(int statusCode, List<Item> items) {
+                if(adapter == null){
+                    adapter = new ListItemAdapter(getActivity(),items);
+                    adapter.notifyDataSetChanged();
+                    setListAdapter(adapter);
+
+                }else {
+                    adapter.addEntriesToBottom(items);
+                    ListItemPagerFragment listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
+                    if(listItemPager != null){
+                        /** Notify about new Data */
+                        listItemPager.getmViewPager().getAdapter().notifyDataSetChanged();
+                    }
+
+                }
+
+            }
+            @Override
+            public void onFailure(int statusCode) {
+                ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
+            }
+            @Override
+            public void onFinish() {
+                loaderView.setVisibility(View.INVISIBLE);
+                finishable.onDone();
+            }
+        });
+
     }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,9 +90,13 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
     ScrollItemListener scrollItemListener = new ScrollItemListener() {
         @Override
         public void onLoadMore(int page, int totalItemsCount) {
-            loadItems(page);
-        }
+            loadItems(page, new Finishable() {
+                @Override
+                public void onDone() {
 
+                }
+            });
+        }
     };
     public void onResume(){
         super.onResume();
@@ -79,36 +116,6 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
             throw new ClassCastException(activity.toString() + " must implement OnItemSelectedListener");
         }
     }
-    ListItemLoader.LoadItemsInterface loadItemsCallback  = new ListItemLoader.LoadItemsInterface() {
-        @Override
-        public void onStart() {
-            loaderView.setVisibility(View.VISIBLE);
-        }
-        @Override
-        public void onSuccess(int statusCode, List<Item> items) {
-            if(adapter == null){
-                adapter = new ListItemAdapter(getActivity(),items);
-                adapter.notifyDataSetChanged();
-                setListAdapter(adapter);
-            }else {
-                adapter.addEntriesToBottom(items);
-                ListItemPagerFragment listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
-                if(listItemPager != null){
-                    /** Notify about new Data */
-                    listItemPager.getmViewPager().getAdapter().notifyDataSetChanged();
-                }
-            }
-        }
-        @Override
-        public void onFailure(int statusCode) {
-            ItemDialogs.itemLoadFailure(getActivity());
-        }
-        @Override
-        public void onFinish() {
-            loaderView.setVisibility(View.INVISIBLE);
-        }
-    };
-
     public void onListItemClick(ListView l, View v, int position, long id) {
         mItemSelectedListener.itemSelected(position);
     }
@@ -135,10 +142,16 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
         getArguments().putString(CATEGORY_NAME,cat_name);
         getArguments().putInt(ITEM_NUM,item_num);
     }
-
     @Override
-    public void refreshView() {
+    public void refreshView(Finishable finishable) {
         getAdapter().clear();
-        loadItems(0);
+        loadItems(0, finishable);
+    }
+
+    public ItemDialogs getItemDialogs() {
+        if(itemDialogs != null ){
+            itemDialogs = new ItemDialogs(getActivity());
+        }
+        return itemDialogs;
     }
 }

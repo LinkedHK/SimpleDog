@@ -28,7 +28,6 @@ public class ListItemPagerFragment extends Fragment {
         mViewPager.setAdapter(new ListItemPagerAdapter(getActivity().getSupportFragmentManager()));
         mViewPager.setCurrentItem(getArguments().getInt(ItemDetailsFragment.POSITION));
 
-
     }
 
 
