@@ -6,9 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.ArrayAdapter;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
@@ -21,6 +19,14 @@ public class ListItemPagerFragment extends Fragment {
 
     public static final String TAG_ID = "list_item_pager";
 
+
+
+    public void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+       setHasOptionsMenu(true);
+    }
+
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ListItemFragment fragment = (ListItemFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ListItemFragment.TAG_ID);
         itemsAdapter = fragment.getAdapter();
@@ -30,7 +36,6 @@ public class ListItemPagerFragment extends Fragment {
 
     }
 
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -39,7 +44,14 @@ public class ListItemPagerFragment extends Fragment {
         return view;
     }
 
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+       MenuItem item = menu.findItem(R.id.refresh_button);
+        if(item != null){
+            item.setVisible(false);
+        }
 
+        super.onCreateOptionsMenu(menu,inflater);
+    }
    private class  ListItemPagerAdapter extends FragmentStatePagerAdapter{
        ListItemPagerAdapter(FragmentManager manager){
            super(manager);

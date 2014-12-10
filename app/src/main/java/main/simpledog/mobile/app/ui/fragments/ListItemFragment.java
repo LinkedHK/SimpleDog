@@ -66,10 +66,9 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
                         /** Notify about new Data */
                         listItemPager.getmViewPager().getAdapter().notifyDataSetChanged();
                     }
-
                 }
-
             }
+
             @Override
             public void onFailure(int statusCode) {
                 ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
