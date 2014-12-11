@@ -1,23 +1,15 @@
 package main.simpledog.mobile.app.ui.fragments;
 
-import android.app.ActionBar;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.*;
-import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.loopj.android.http.RequestParams;
 import main.simpledog.mobile.app.R;
-import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
 import main.simpledog.mobile.app.ui.HomeActivity;
-import main.simpledog.mobile.app.ui.ListItemLoader;
-import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
+import main.simpledog.mobile.app.ui.core.ListItemLoader;
 
 import java.util.List;
 

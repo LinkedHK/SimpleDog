@@ -34,4 +34,10 @@
     <string name="item_published_text_default">Date</string>
     <string name="items_shown">%1$s Items Shown</string>
 
+    <string name="search_form">Search</string>
+    <string name="search_hint">Search by title,category</string>
+
+
+
+
 </resources>

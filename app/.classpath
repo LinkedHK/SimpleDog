@@ -20,11 +20,6 @@
 	<classpathentry kind="src" path="src/debug/rs"/>
 	<classpathentry kind="src" path="src/main/res"/>
 	<classpathentry kind="src" path="src/main/resources"/>
-	<classpathentry kind="src" path="src/main/aidl"/>
-	<classpathentry kind="src" path="src/main/assets"/>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/main/jni"/>
-	<classpathentry kind="src" path="src/main/rs"/>
 	<classpathentry kind="src" path="src/androidTest/res"/>
 	<classpathentry kind="src" path="src/androidTest/resources"/>
 	<classpathentry kind="src" path="src/androidTest/aidl"/>
@@ -32,6 +27,11 @@
 	<classpathentry kind="src" path="src/androidTest/java"/>
 	<classpathentry kind="src" path="src/androidTest/jni"/>
 	<classpathentry kind="src" path="src/androidTest/rs"/>
+	<classpathentry kind="src" path="src/main/aidl"/>
+	<classpathentry kind="src" path="src/main/assets"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/jni"/>
+	<classpathentry kind="src" path="src/main/rs"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/gson-2.3.1"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/hamcrest-core-1.3"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/junit-3.8.2"/>

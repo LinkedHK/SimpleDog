@@ -1,4 +1,4 @@
-package main.simpledog.mobile.app.ui;
+package main.simpledog.mobile.app.ui.core;
 
 
 import com.google.gson.GsonBuilder;

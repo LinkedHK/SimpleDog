@@ -18,9 +18,8 @@ import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.ItemCategory;
 import main.simpledog.mobile.app.ui.HomeActivity;
-import main.simpledog.mobile.app.ui.ListItemLoader;
+import main.simpledog.mobile.app.ui.core.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListCategoriesAdapter;
-import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -121,11 +120,6 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
              * */
             fragment.updateParams(cat_id,cat_name,item_num);
         }
-    }
-
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.refresh_button_menu,menu);
-        super.onCreateOptionsMenu(menu,inflater);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

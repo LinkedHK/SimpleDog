@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.ui.HomeActivity;
-import main.simpledog.mobile.app.ui.ListItemLoader;
+import main.simpledog.mobile.app.ui.core.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 
