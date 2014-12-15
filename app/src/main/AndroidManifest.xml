@@ -12,17 +12,31 @@
         android:name=".core.CoreApplication"
         android:theme="@android:style/Theme.DeviceDefault.Light"
             >
-        <activity android:name=".ui.HomeActivity">
+
+        <provider android:authorities="com.simpledog.RecentItemsSuggestionProvider" android:name=".core.RecentItemsSuggestionProvider"/>
+
+        <activity android:name=".ui.HomeActivity"
+                  android:launchMode="singleTop"
+                >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
             <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
         </activity>
+
+      <!-- http://stackoverflow.com/questions/5087187/how-to-implement-search-box-in-my-application-in-android -->
         <activity android:name=".ui.MainSearchActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+            <meta-data
+                    android:name="android.app.searchable"
+                    android:resource="@xml/searchable" />
     </activity>
         <activity  android:name=".ui.StartupActivity">
 

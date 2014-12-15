@@ -32,7 +32,7 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
     public static final String CATEGORY_ID = "category";
     public static final String CATEGORY_NAME = "category_name";
     public static final String ITEM_NUM = "item_num";
-    private  ListItemFragment.OnItemSelectedListener mItemSelectedListener;
+    private  OnItemSelectedListener mItemSelectedListener;
 
     public void onViewCreated (View view, Bundle savedInstanceState) {
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
@@ -54,6 +54,9 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
             }
             @Override
             public void onSuccess(int statusCode, List<Item> items) {
+                if(items.size() == 0){
+                    return; // Show not found Result
+                }
                 if(adapter == null){
                     adapter = new ListItemAdapter(getActivity(),items);
                     adapter.notifyDataSetChanged();
@@ -71,6 +74,7 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
 
             @Override
             public void onFailure(int statusCode) {
+
                 ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
             }
             @Override
@@ -118,9 +122,7 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
     public void onListItemClick(ListView l, View v, int position, long id) {
         mItemSelectedListener.itemSelected(position);
     }
-    public interface OnItemSelectedListener{
-        void itemSelected(int position);
-    }
+
 
     public ListItemAdapter getAdapter() {
         return adapter;
@@ -152,5 +154,9 @@ public class ListItemFragment extends ListFragment implements  Refreshable {
             itemDialogs = new ItemDialogs(getActivity());
         }
         return itemDialogs;
+    }
+
+    public ProgressBar getLoaderView() {
+        return loaderView;
     }
 }

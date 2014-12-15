@@ -6,6 +6,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -15,13 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.SearchView;
 import main.simpledog.mobile.app.R;
+import main.simpledog.mobile.app.core.RecentItemsSuggestionProvider;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import main.simpledog.mobile.app.ui.fragments.*;
 import main.simpledog.mobile.app.ui.utils.FragmentUtil;
 
 public class HomeActivity extends FragmentActivity implements
-        ListItemFragment.OnItemSelectedListener{
+        OnItemSelectedListener{
 
     ItemDialogs itemDialogs;
 
@@ -29,13 +31,38 @@ public class HomeActivity extends FragmentActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        handleIntent(getIntent());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initDefaultFragment();
         getSupportFragmentManager().addOnBackStackChangedListener(backStackChangedListener);
-
+    }
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
     }
 
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+                    RecentItemsSuggestionProvider.AUTHORITY,RecentItemsSuggestionProvider.MODE);
+            suggestions.saveRecentQuery(query, null);
+
+                /** Creating a new fragment if fragment either is null or number of items doesn't match to the items in list fragment  */
+                Bundle args = new Bundle();
+                args.putString(ListSearchItems.QUERY, query);
+
+                ListSearchItems   fragment = new ListSearchItems();
+                fragment.setArguments(args);
+                FragmentTransaction transaction =
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.listViewContainer, fragment, ListSearchItems.TAG_ID)
+                                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction.addToBackStack(ListSearchItems.TAG_ID);
+                transaction.commit();
+        }
+    }
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */
     private FragmentManager.OnBackStackChangedListener backStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
@@ -79,7 +106,6 @@ public class HomeActivity extends FragmentActivity implements
     }
 
     public void refreshFragment(){
-
             synchronized (this){
                 if(!refreshing){
                     refreshing = true;
@@ -171,8 +197,6 @@ public class HomeActivity extends FragmentActivity implements
         }
 
     }
-
-
     public ItemDialogs getItemDialogs() {
         if(itemDialogs == null){
             itemDialogs = new ItemDialogs(this);

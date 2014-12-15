@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import main.simpledog.mobile.app.R;
 
 public class MainSearchActivity extends Activity {
@@ -23,8 +24,8 @@ public class MainSearchActivity extends Activity {
     private void handleIntent(Intent intent) {
 
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            Log.d("search","Search clicked!!");
             String query = intent.getStringExtra(SearchManager.QUERY);
-            //use the query to search your data somehow
         }
     }
 }
