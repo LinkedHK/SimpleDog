@@ -18,8 +18,7 @@ public class ListItemPagerFragment extends Fragment {
     private ArrayAdapter<Item> itemsAdapter;
 
     public static final String TAG_ID = "list_item_pager";
-
-
+    public static final String FRAGMENT_ID = "fragment_id";
 
     public void onCreate(Bundle savedInstanceState) {
 
@@ -28,7 +27,8 @@ public class ListItemPagerFragment extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        ListItemFragment fragment = (ListItemFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ListItemFragment.TAG_ID);
+        String fragment_id = getArguments().getString(FRAGMENT_ID);
+        AbstractListFragment fragment = (AbstractListFragment) getActivity().getSupportFragmentManager().findFragmentByTag(fragment_id);
         itemsAdapter = fragment.getAdapter();
         mViewPager = (ViewPager) getView().findViewById(R.id.pager);
         mViewPager.setAdapter(new ListItemPagerAdapter(getActivity().getSupportFragmentManager()));

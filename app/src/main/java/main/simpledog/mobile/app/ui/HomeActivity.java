@@ -22,8 +22,7 @@ import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import main.simpledog.mobile.app.ui.fragments.*;
 import main.simpledog.mobile.app.ui.utils.FragmentUtil;
 
-public class HomeActivity extends FragmentActivity implements
-        OnItemSelectedListener{
+public class HomeActivity extends FragmentActivity {
 
     ItemDialogs itemDialogs;
 
@@ -49,18 +48,38 @@ public class HomeActivity extends FragmentActivity implements
                     RecentItemsSuggestionProvider.AUTHORITY,RecentItemsSuggestionProvider.MODE);
             suggestions.saveRecentQuery(query, null);
 
-                /** Creating a new fragment if fragment either is null or number of items doesn't match to the items in list fragment  */
+                /** Creating a new fragment if fragment either is null or number
+                 * of items doesn't match to the items in the list fragment  */
+
+             ListSearchItems fragment = (ListSearchItems) getSupportFragmentManager().findFragmentByTag(ListSearchItems.TAG_ID);
+            if(fragment == null){
                 Bundle args = new Bundle();
                 args.putString(ListSearchItems.QUERY, query);
 
-                ListSearchItems   fragment = new ListSearchItems();
+                fragment = new ListSearchItems();
                 fragment.setArguments(args);
                 FragmentTransaction transaction =
                         getSupportFragmentManager().beginTransaction()
+
                                 .replace(R.id.listViewContainer, fragment, ListSearchItems.TAG_ID)
                                 .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 transaction.addToBackStack(ListSearchItems.TAG_ID);
                 transaction.commit();
+            }else {
+                /** Todo get it working in item details! */
+                fragment.getArguments().putString(ListSearchItems.QUERY, query);
+
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.listViewContainer,fragment).commit();
+
+
+                fragment.refreshView(new Finishable() {
+                    @Override
+                    public void onDone() {
+                    }
+                });
+
+            }
         }
     }
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */
@@ -157,31 +176,7 @@ public class HomeActivity extends FragmentActivity implements
         }
     }
 
-    public void itemSelected(int position) {
-        ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
-        ListItemAdapter itemAdapter = ((ListItemFragment) getSupportFragmentManager()
-                .findFragmentByTag(ListItemFragment.TAG_ID)).getAdapter();
 
-        if(pagerFragment == null ||
-                itemAdapter.getCount() != pagerFragment.getItemsAdapter().getCount()){
-            /** Creating a new fragment if fragment either is null or number of items doesn't match to the items in list fragment  */
-            Bundle args = new Bundle();
-            args.putInt(ItemDetailsFragment.POSITION,position);
-
-            pagerFragment = new ListItemPagerFragment();
-            pagerFragment.setArguments(args);
-            FragmentTransaction transaction =
-                    getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.itemPagerContainer, pagerFragment, ListItemPagerFragment.TAG_ID)
-                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction.addToBackStack(null);
-                transaction.commit();
-        }else {
-            /** if ok then just pass data of clicked item to a details fragment  */
-            // http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
-            pagerFragment.getArguments().putInt(ItemDetailsFragment.POSITION,position);
-        }
-    }
     @Override
     public void onBackPressed() {
        int count = getSupportFragmentManager().getBackStackEntryCount();

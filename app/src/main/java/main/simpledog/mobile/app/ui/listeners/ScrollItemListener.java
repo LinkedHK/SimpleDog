@@ -62,8 +62,6 @@ public abstract class ScrollItemListener implements AbsListView.OnScrollListener
             onLoadMore(currentPage + 1, totalItemCount);
             loading = true;
         }
-
-
     }
 
     // Defines the process for actually loading more data based on page
