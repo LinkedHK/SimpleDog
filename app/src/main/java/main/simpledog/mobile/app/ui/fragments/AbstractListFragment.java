@@ -20,6 +20,8 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
     protected ProgressBar progressBar;
 
     protected ListItemAdapter listItemAdapter;
+
+  protected   ListItemPagerFragment listItemPager;
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {
         // Should be abstract
@@ -46,29 +48,33 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
         }
     };
     public void onListItemClick(ListView l, View v, int position, long id) {
-        ListItemPagerFragment pagerFragment = (ListItemPagerFragment) getActivity(). getSupportFragmentManager().findFragmentByTag(getPagerTag());
-        if(pagerFragment == null ||
-                getAdapter().getCount() != pagerFragment.getItemsAdapter().getCount()){
+
             /** Creating a new fragment if fragment either is null or number of items doesn't match to the items in list fragment  */
+
             Bundle args = new Bundle();
             args.putInt(ItemDetailsFragment.POSITION,position);
             args.putString(ListItemPagerFragment.FRAGMENT_ID,getFragmentId());
-            pagerFragment = new ListItemPagerFragment();
+            ListItemPagerFragment  pagerFragment = new ListItemPagerFragment();
             pagerFragment.setArguments(args);
             FragmentTransaction transaction =
                     getActivity(). getSupportFragmentManager().beginTransaction()
                             .replace(R.id.itemPagerContainer, pagerFragment, getPagerTag())
                             .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }else {
-            /** if ok then just pass data of clicked item to a details fragment  */
-            // http://stackoverflow.com/questions/10364478/got-exception-fragment-already-active
-            pagerFragment.getArguments().putInt(ItemDetailsFragment.POSITION,position);
-        }
+          transaction.addToBackStack(null);
+          transaction.commit();
     }
 
 
+    public void  updatePager(){
+        synchronized (this){
+            listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(getPagerTag());
+            if(listItemPager != null ){
+                if(listItemPager.getPagerAdapter() != null){
+                    listItemPager.getPagerAdapter().notifyDataSetChanged();
+                }
+            }
+        }
+    }
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment

@@ -62,7 +62,6 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
                 categoryListAdapter  = new ListCategoriesAdapter(getActivity(),items_set);
                 categoryListAdapter.notifyDataSetChanged();
                 setListAdapter(categoryListAdapter);
-
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {

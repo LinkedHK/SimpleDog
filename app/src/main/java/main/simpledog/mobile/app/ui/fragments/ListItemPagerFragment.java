@@ -17,6 +17,8 @@ public class ListItemPagerFragment extends Fragment {
 
     private ArrayAdapter<Item> itemsAdapter;
 
+    FragmentStatePagerAdapter fragmentStatePagerAdapter;
+
     public static final String TAG_ID = "list_item_pager";
     public static final String FRAGMENT_ID = "fragment_id";
 
@@ -31,9 +33,9 @@ public class ListItemPagerFragment extends Fragment {
         AbstractListFragment fragment = (AbstractListFragment) getActivity().getSupportFragmentManager().findFragmentByTag(fragment_id);
         itemsAdapter = fragment.getAdapter();
         mViewPager = (ViewPager) getView().findViewById(R.id.pager);
+
         mViewPager.setAdapter(new ListItemPagerAdapter(getActivity().getSupportFragmentManager()));
         mViewPager.setCurrentItem(getArguments().getInt(ItemDetailsFragment.POSITION));
-
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -43,13 +45,23 @@ public class ListItemPagerFragment extends Fragment {
                 false);
         return view;
     }
+    public void onDetach(){
+        super.onDetach();
+    }
+    public void onResume(){
+        super.onResume();
+        if(fragmentStatePagerAdapter != null){
+            fragmentStatePagerAdapter.notifyDataSetChanged();
+        }
+
+    }
 
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
        MenuItem item = menu.findItem(R.id.refresh_button);
+     //   MenuItem search = menu.findItem(R.id.liveSearchMenu);
         if(item != null){
             item.setVisible(false);
         }
-
         super.onCreateOptionsMenu(menu,inflater);
     }
    private class  ListItemPagerAdapter extends FragmentStatePagerAdapter{
@@ -63,6 +75,7 @@ public class ListItemPagerFragment extends Fragment {
        }
        @Override
        public int getCount() {
+
            return getItemsAdapter().getCount();
        }
    }
@@ -70,7 +83,9 @@ public class ListItemPagerFragment extends Fragment {
     public ArrayAdapter<Item> getItemsAdapter() {
         return itemsAdapter;
     }
-    public ViewPager getmViewPager() {
-        return mViewPager;
+
+
+    public FragmentStatePagerAdapter getPagerAdapter() {
+        return fragmentStatePagerAdapter;
     }
 }

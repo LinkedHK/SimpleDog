@@ -51,35 +51,16 @@ public class HomeActivity extends FragmentActivity {
                 /** Creating a new fragment if fragment either is null or number
                  * of items doesn't match to the items in the list fragment  */
 
-             ListSearchItems fragment = (ListSearchItems) getSupportFragmentManager().findFragmentByTag(ListSearchItems.TAG_ID);
-            if(fragment == null){
-                Bundle args = new Bundle();
-                args.putString(ListSearchItems.QUERY, query);
+                        Bundle args = new Bundle();
+                        args.putString(ListSearchItems.QUERY, query);
+                        ListSearchItems  fragment = ListSearchItems.newInstance(args);
+                        FragmentTransaction transaction =
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.listViewContainer, fragment, ListSearchItems.TAG_ID)
+                                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        transaction.addToBackStack(ListSearchItems.TAG_ID);
+                        transaction.commit();
 
-                fragment = new ListSearchItems();
-                fragment.setArguments(args);
-                FragmentTransaction transaction =
-                        getSupportFragmentManager().beginTransaction()
-
-                                .replace(R.id.listViewContainer, fragment, ListSearchItems.TAG_ID)
-                                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction.addToBackStack(ListSearchItems.TAG_ID);
-                transaction.commit();
-            }else {
-                /** Todo get it working in item details! */
-                fragment.getArguments().putString(ListSearchItems.QUERY, query);
-
-                getSupportFragmentManager().beginTransaction().
-                        replace(R.id.listViewContainer,fragment).commit();
-
-
-                fragment.refreshView(new Finishable() {
-                    @Override
-                    public void onDone() {
-                    }
-                });
-
-            }
         }
     }
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */

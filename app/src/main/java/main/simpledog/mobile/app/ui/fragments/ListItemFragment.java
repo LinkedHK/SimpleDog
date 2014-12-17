@@ -21,7 +21,7 @@ import java.util.List;
 public class ListItemFragment extends AbstractListFragment {
 
 
-    protected ListItemAdapter adapter;
+
 
     protected ListItemLoader itemLoader;
 
@@ -42,17 +42,18 @@ public class ListItemFragment extends AbstractListFragment {
                 if(items.size() == 0){
                     return; // Show not found Result
                 }
-                if(adapter == null){
-                    adapter = new ListItemAdapter(getActivity(),items);
-                    adapter.notifyDataSetChanged();
-                    setListAdapter(adapter);
-
+                if(listItemAdapter == null){
+                    listItemAdapter = new ListItemAdapter(getActivity(),items);
+                    listItemAdapter.notifyDataSetChanged();
+                    setListAdapter(listItemAdapter);
                 }else {
-                    adapter.addEntriesToBottom(items);
+                    listItemAdapter.addEntriesToBottom(items);
                     ListItemPagerFragment listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(ListItemPagerFragment.TAG_ID);
                     if(listItemPager != null){
                         /** Notify about new Data */
-                        listItemPager.getmViewPager().getAdapter().notifyDataSetChanged();
+                        if(listItemPager.getPagerAdapter() != null){
+                            listItemPager.getPagerAdapter().notifyDataSetChanged();
+                        }
                     }
                 }
             }
