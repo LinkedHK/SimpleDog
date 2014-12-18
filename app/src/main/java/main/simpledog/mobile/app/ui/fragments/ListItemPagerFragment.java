@@ -6,10 +6,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewGroupCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.*;
 import android.widget.ArrayAdapter;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.entities.Item;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListItemPagerFragment extends Fragment {
 
@@ -33,7 +37,6 @@ public class ListItemPagerFragment extends Fragment {
         AbstractListFragment fragment = (AbstractListFragment) getActivity().getSupportFragmentManager().findFragmentByTag(fragment_id);
         itemsAdapter = fragment.getAdapter();
         mViewPager = (ViewPager) getView().findViewById(R.id.pager);
-
         mViewPager.setAdapter(new ListItemPagerAdapter(getActivity().getSupportFragmentManager()));
         mViewPager.setCurrentItem(getArguments().getInt(ItemDetailsFragment.POSITION));
     }
@@ -45,7 +48,12 @@ public class ListItemPagerFragment extends Fragment {
                 false);
         return view;
     }
+    public void onDestroy(){
+        super.onDestroy();
+
+    }
     public void onDetach(){
+
         super.onDetach();
     }
     public void onResume(){
@@ -53,9 +61,7 @@ public class ListItemPagerFragment extends Fragment {
         if(fragmentStatePagerAdapter != null){
             fragmentStatePagerAdapter.notifyDataSetChanged();
         }
-
     }
-
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
        MenuItem item = menu.findItem(R.id.refresh_button);
      //   MenuItem search = menu.findItem(R.id.liveSearchMenu);
@@ -73,9 +79,16 @@ public class ListItemPagerFragment extends Fragment {
            Item item = getItemsAdapter().getItem(position);
            return ItemDetailsFragment.newInstance(item.id,position);
        }
+
+       @Override
+       public void destroyItem(ViewGroup container, int position, Object object) {
+           if (position >= getCount()) {
+               FragmentManager manager = ((Fragment) object).getFragmentManager();
+               manager.beginTransaction().remove((Fragment) object).commit();
+           }
+       }
        @Override
        public int getCount() {
-
            return getItemsAdapter().getCount();
        }
    }

@@ -60,11 +60,9 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
                     getActivity(). getSupportFragmentManager().beginTransaction()
                             .replace(R.id.itemPagerContainer, pagerFragment, getPagerTag())
                             .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-          transaction.addToBackStack(null);
+       transaction.addToBackStack(getPagerTag());
           transaction.commit();
     }
-
-
     public void  updatePager(){
         synchronized (this){
             listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(getPagerTag());

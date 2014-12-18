@@ -17,19 +17,9 @@
             android:layout_centerHorizontal="true"
             android:id="@+id/itemLoadingProgressBar"/>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/itemDetailsContainer"
-                 android:layout_width="match_parent"
-                 android:background="@android:color/white"
-                 android:layout_height="wrap_content">
-    </FrameLayout>
-
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
                  android:id="@+id/itemPagerContainer"
                  android:layout_width="match_parent"
                  android:background="@android:color/white"
                  android:layout_height="wrap_content">
     </FrameLayout>
-
-
-
 </RelativeLayout>

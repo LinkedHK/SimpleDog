@@ -40,18 +40,15 @@ public class ListSearchItems extends AbstractListFragment implements  Refreshabl
                     Type type = new TypeToken<ArrayList<Item>>() {
                     }.getType();
                     ArrayList<Item> items_set = (new GsonBuilder().create().fromJson(response.toString(), type));
+
                     if(listItemAdapter == null){
                         listItemAdapter = new ListItemAdapter(getActivity(), items_set);
                         listItemAdapter.notifyDataSetChanged();
                         setListAdapter(listItemAdapter);
                     }else {
-                        if(items_set.size() == 0){
-                            listItemAdapter.clear();
-                        }else {
                             listItemAdapter.addEntriesToBottom(items_set);
-                        }
-                        updatePager();
                     }
+                updatePager();
             }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 ((HomeActivity) getActivity()).getItemDialogs().itemLoadFailure();
