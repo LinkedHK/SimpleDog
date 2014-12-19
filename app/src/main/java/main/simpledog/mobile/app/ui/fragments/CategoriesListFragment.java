@@ -65,7 +65,9 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
             }
 
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
+                if(getActivity() != null){
+                    ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
+                }
             }
 
             public void onFinish() {

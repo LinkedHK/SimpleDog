@@ -1,9 +1,11 @@
 package main.simpledog.mobile.app.ui.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -13,6 +15,7 @@ import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.ui.HomeActivity;
+import main.simpledog.mobile.app.ui.MainSearchActivity;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
 import org.apache.http.Header;
 import org.json.JSONArray;
@@ -29,6 +32,7 @@ public class ListSearchItems extends AbstractListFragment implements  Refreshabl
 
     private RequestParams params;
 
+    public Context mContext;
 
 
     public void searchItems(int page, final Finishable finishable){
@@ -40,15 +44,14 @@ public class ListSearchItems extends AbstractListFragment implements  Refreshabl
                     Type type = new TypeToken<ArrayList<Item>>() {
                     }.getType();
                     ArrayList<Item> items_set = (new GsonBuilder().create().fromJson(response.toString(), type));
-
                     if(listItemAdapter == null){
-                        listItemAdapter = new ListItemAdapter(getActivity(), items_set);
+                        listItemAdapter = new ListItemAdapter(mContext, items_set);
                         listItemAdapter.notifyDataSetChanged();
                         setListAdapter(listItemAdapter);
                     }else {
                             listItemAdapter.addEntriesToBottom(items_set);
                     }
-                updatePager();
+              //  updatePager();
             }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 ((HomeActivity) getActivity()).getItemDialogs().itemLoadFailure();
@@ -63,15 +66,17 @@ public class ListSearchItems extends AbstractListFragment implements  Refreshabl
         });
     }
 
-    public static ListSearchItems newInstance(Bundle args){
+    public static ListSearchItems newInstance(Bundle args, Context context){
         ListSearchItems fragment = new ListSearchItems();
+        fragment.setmContext(context);
         fragment.setArguments(args);
 
         return  fragment;
 
     }
-
-
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
+    }
 
     public void onResume(){
         super.onResume();

@@ -46,10 +46,8 @@ public class HomeActivity extends FragmentActivity {
         public void onBackStackChanged() {
             FragmentManager fragmentManager = getSupportFragmentManager();
         //    f.toString();
-
             Log.d("Current_Fragment", FragmentUtil.getCurrentFragment(HomeActivity.this).toString());
             Log.d("Fragments", getSupportFragmentManager().getFragments().toString());
-
             if (fragmentManager != null) {
                 /** Set Back Button */
                 int stackHeight = fragmentManager.getBackStackEntryCount();
