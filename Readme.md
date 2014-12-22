@@ -32,7 +32,7 @@ The app tested on android v 4.2-5.0
 
 ## Screenshots
 
-[Album](http://imgur.com/a/M3Ylj)
+### [Album](http://imgur.com/a/M3Ylj)
 
 
 [![Categories](http://i.imgur.com/N7D6q2i.png)](http://imgur.com/a/M3Ylj)
