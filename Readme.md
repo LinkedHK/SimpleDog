@@ -22,9 +22,8 @@ Then, Gradle will do everything for you.
 
 ## Description
 
-The app uses the rest API of a web app [RakeJ](https://github.com/LinkedHK/RakeJ)
-RakeJ is implemented using Rails Framework, it provides API for Full Text Search(Elastic search) by Titles and categories
-and a standard search.
+The app uses the rest API of a web app [RakeJ](https://github.com/LinkedHK/RakeJ) .
+RakeJ is implemented using Rails Framework, it provides API for Full Text Search(Elastic search)
 
 ## Compatibility
 
