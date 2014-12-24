@@ -10,7 +10,7 @@ public abstract class ScrollItemListener implements AbsListView.OnScrollListener
     // before loading more.
     private int visibleThreshold = 1;
     // The current offset index of data you have loaded
-    private int currentPage = 0;
+    private int currentPage = 1;
     // The total number of items in the dataset after the last load
     private int previousTotalItemCount = 0;
     // True if we are still waiting for the last set of data to load.

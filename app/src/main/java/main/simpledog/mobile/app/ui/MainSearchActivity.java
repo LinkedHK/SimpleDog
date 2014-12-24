@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.SearchView;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.core.RecentItemsSuggestionProvider;
+import main.simpledog.mobile.app.ui.core.ParamsFactory;
 import main.simpledog.mobile.app.ui.fragments.ListSearchItems;
 
 public class MainSearchActivity extends FragmentActivity {
@@ -41,13 +42,13 @@ public class MainSearchActivity extends FragmentActivity {
             /** Creating a new fragment if fragment either is null or number
              * of items doesn't match to the items in the list fragment  */
             Bundle args = new Bundle();
-            args.putString(ListSearchItems.QUERY, query);
+            args.putString(ParamsFactory.SEARCH, query);
             ListSearchItems  fragment = ListSearchItems.newInstance(args,this);
             FragmentTransaction transaction =
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.listViewContainer, fragment, ListSearchItems.TAG_ID)
                             .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-     //     transaction.addToBackStack(ListSearchItems.TAG_ID);
+            transaction.addToBackStack(ListSearchItems.TAG_ID);
             transaction.commit();
         }
     }

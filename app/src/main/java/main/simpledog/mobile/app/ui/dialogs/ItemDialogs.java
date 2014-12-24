@@ -38,6 +38,7 @@ public class ItemDialogs  {
         alert.setMessage(R.string.item_load_failure);
         alert.create();
         alert.show();
+        alert.show();
     }
 
 

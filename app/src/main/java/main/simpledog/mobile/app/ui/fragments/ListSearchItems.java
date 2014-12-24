@@ -17,6 +17,8 @@ import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.ui.HomeActivity;
 import main.simpledog.mobile.app.ui.MainSearchActivity;
 import main.simpledog.mobile.app.ui.adapters.ListItemAdapter;
+import main.simpledog.mobile.app.ui.core.ParamsFactory;
+import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -27,70 +29,28 @@ import java.util.ArrayList;
 public class ListSearchItems extends AbstractListFragment implements  Refreshable{
 
     public static final String TAG_ID = "item_search_list";
-    public static final String QUERY = "search";
-    public static final String URL = "/live_search";
-
-    private RequestParams params;
-
     public Context mContext;
-
-
-    public void searchItems(int page, final Finishable finishable){
-        RequestParams p =  getParams();
-        p.put("page", page);
-        ItemResolverClient.get(URL, p, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                    Type type = new TypeToken<ArrayList<Item>>() {
-                    }.getType();
-                    ArrayList<Item> items_set = (new GsonBuilder().create().fromJson(response.toString(), type));
-                    if(listItemAdapter == null){
-                        listItemAdapter = new ListItemAdapter(mContext, items_set);
-                        listItemAdapter.notifyDataSetChanged();
-                        setListAdapter(listItemAdapter);
-                    }else {
-                            listItemAdapter.addEntriesToBottom(items_set);
-                    }
-              //  updatePager();
-            }
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                ((HomeActivity) getActivity()).getItemDialogs().itemLoadFailure();
-            }
-            public void onFailure(int statusCode,  Header[] headers, String rs, Throwable errorResponse){
-                ((HomeActivity) getActivity()).getItemDialogs().itemLoadFailure();
-            }
-            public void onFinish() {
-                progressBar.setVisibility(View.INVISIBLE);
-                finishable.onDone();
-            }
-        });
-    }
-
     public static ListSearchItems newInstance(Bundle args, Context context){
         ListSearchItems fragment = new ListSearchItems();
-        fragment.setmContext(context);
+        fragment.setContext(context);
         fragment.setArguments(args);
-
         return  fragment;
-
     }
-    public void setmContext(Context mContext) {
+    public void setContext(Context mContext) {
         this.mContext = mContext;
     }
 
     public void onResume(){
         super.onResume();
     }
+
     public void setTitle(){
         String def_list_name = getString(R.string.search_results);
         getActivity().getActionBar().setTitle(def_list_name);
     }
-    public RequestParams getParams(){
-            params = new RequestParams();
-            String s = getArguments().getString(QUERY);
-            params.put(QUERY,s);
-        return  params;
-
+    public Bundle getParams(){
+        String s = getArguments().getString(ParamsFactory.SEARCH);
+        return  ParamsFactory.setSearchable(s,getPage());
     }
     @Override
     public String getFragmentId() {

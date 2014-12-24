@@ -12,9 +12,10 @@
         android:name=".core.CoreApplication"
         android:theme="@android:style/Theme.DeviceDefault.Light"
             >
-
         <provider android:authorities="com.simpledog.RecentItemsSuggestionProvider"
                   android:name=".core.RecentItemsSuggestionProvider"/>
+
+        ItemPagerActivity
 
         <activity android:name=".ui.MainSearchActivity"
                   android:launchMode="singleTop">
@@ -26,6 +27,11 @@
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value=".ui.HomeActivity" />
+
+        </activity>
+
+
+        <activity  android:name=".ui.ItemPagerActivity">
 
         </activity>
         <activity android:name=".ui.HomeActivity"

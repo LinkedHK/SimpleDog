@@ -21,7 +21,7 @@ public class ItemDetailsFragment extends Fragment {
 
    private TextView itemTitle;
     private TextView itemDescription;
-    private ListItemLoader itemLoader;
+    private ListItemLoader itemLoader = new ListItemLoader();
     private ProgressBar progressBar;
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -30,7 +30,6 @@ public class ItemDetailsFragment extends Fragment {
         itemTitle = (TextView) getView().findViewById(R.id.itemDetailsTitle);
         itemDescription = (TextView) getView().findViewById(R.id.itemDetailsDescription);
         progressBar = (ProgressBar) getView().findViewById(R.id.showDetailsLoad);
-        itemLoader = new ListItemLoader();
         itemLoader.showItem(getItemId(), new ListItemLoader.LoadItemsInterface() {
             @Override
             public void onStart() {

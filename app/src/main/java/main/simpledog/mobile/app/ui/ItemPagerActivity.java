@@ -32,8 +32,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class ItemPagerActivity extends FragmentActivity  {
-
-
     private ProgressBar progressBar;
     private ViewPager mViewPager;
     private ArrayList<Item> itemsList;
@@ -41,14 +39,14 @@ public class ItemPagerActivity extends FragmentActivity  {
     protected ItemDialogs dialogs = new ItemDialogs(this);
     ParamsFactory paramsFactory;
 
-    FragmentStatePagerAdapter fragmentStatePagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.item_list_pager);
-        paramsFactory = new ParamsFactory(savedInstanceState);
+        //progressBar = (ProgressBar)findViewById(R.id.progressBar);
+        paramsFactory = new ParamsFactory(getIntent().getExtras());
         mViewPager = new ViewPager(this);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         loadItems(new Finishable() {
@@ -56,7 +54,6 @@ public class ItemPagerActivity extends FragmentActivity  {
             public void onDone() {
                 pagerAdapter = new ListItemPagerAdapter(getSupportFragmentManager());
                 mViewPager.setAdapter(pagerAdapter);
-
             }
         });
         // Get page 0
