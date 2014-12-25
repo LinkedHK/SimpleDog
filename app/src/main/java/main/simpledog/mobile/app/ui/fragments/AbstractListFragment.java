@@ -120,21 +120,10 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
                     getActivity(). getSupportFragmentManager().beginTransaction()
                             .replace(R.id.itemPagerContainer, pagerFragment, getPagerTag())
                             .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-       transaction.addToBackStack(getPagerTag());
+        transaction.addToBackStack(getPagerTag());
         transaction.commit();
-
-
     }
-    public void  updatePager(){
-        synchronized (this){
-            listItemPager = (ListItemPagerFragment) getActivity().getSupportFragmentManager().findFragmentByTag(getPagerTag());
-            if(listItemPager != null ){
-                if(listItemPager.getPagerAdapter() != null){
-                    listItemPager.getPagerAdapter().notifyDataSetChanged();
-                }
-            }
-        }
-    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -156,6 +145,7 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
     }
 
 
+
     public ParamsFactory getParamsFactory() {
         if(paramsFactory == null){
             paramsFactory = new ParamsFactory(getParams());
@@ -174,7 +164,6 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
     public String getPagerTag(){
         return  ListItemPagerFragment.FRAGMENT_ID + "" + getFragmentId();
     }
-
 
     public ArrayAdapter getAdapter() {
         return listItemAdapter;

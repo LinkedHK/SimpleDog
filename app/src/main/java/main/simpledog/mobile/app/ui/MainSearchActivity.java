@@ -32,7 +32,6 @@ public class MainSearchActivity extends FragmentActivity {
         handleIntent(intent);
     }
     private void handleIntent(Intent intent) {
-
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             Log.d("search","Search clicked!!");
             String query = intent.getStringExtra(SearchManager.QUERY);
@@ -48,10 +47,11 @@ public class MainSearchActivity extends FragmentActivity {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.listViewContainer, fragment, ListSearchItems.TAG_ID)
                             .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.addToBackStack(ListSearchItems.TAG_ID);
+          transaction.addToBackStack(ListSearchItems.TAG_ID);
             transaction.commit();
         }
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_options,menu);
@@ -64,27 +64,30 @@ public class MainSearchActivity extends FragmentActivity {
                 searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                    NavUtils.navigateUpFromSameTask(this);
+                int count = getSupportFragmentManager().getBackStackEntryCount();
+                if(count <=1 ){
+                    finish();
+                }else {
+                    super.onBackPressed();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
+    /*
     public void onBackPressed() {
-        int count = getSupportFragmentManager().getBackStackEntryCount()-1;
-        if(count <= 0){
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if(count <= 1){
             finish();
-            // finish() return to startup screen
         }else {
             super.onBackPressed();
         }
     }
+    */
 
 }

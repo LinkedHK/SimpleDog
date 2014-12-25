@@ -30,16 +30,13 @@ public class HomeActivity extends FragmentActivity {
     ItemDialogs itemDialogs;
 
     protected boolean refreshing = false;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initDefaultFragment();
         getSupportFragmentManager().addOnBackStackChangedListener(backStackChangedListener);
     }
-
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */
     private FragmentManager.OnBackStackChangedListener backStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
@@ -80,11 +77,10 @@ public class HomeActivity extends FragmentActivity {
                 refreshFragment();
                 break;
             default:
-                return  super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
         return true;
     }
-
     public void refreshFragment(){
             synchronized (this){
                 if(!refreshing){
@@ -136,8 +132,6 @@ public class HomeActivity extends FragmentActivity {
                     .commit();
         }
     }
-
-
     @Override
     public void onBackPressed() {
        int count = getSupportFragmentManager().getBackStackEntryCount();
@@ -151,6 +145,8 @@ public class HomeActivity extends FragmentActivity {
             super.onBackPressed();
         }
     }
+
+
     public ItemDialogs getItemDialogs() {
         if(itemDialogs == null){
             itemDialogs = new ItemDialogs(this);

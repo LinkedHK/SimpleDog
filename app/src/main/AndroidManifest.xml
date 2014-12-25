@@ -14,9 +14,6 @@
             >
         <provider android:authorities="com.simpledog.RecentItemsSuggestionProvider"
                   android:name=".core.RecentItemsSuggestionProvider"/>
-
-        ItemPagerActivity
-
         <activity android:name=".ui.MainSearchActivity"
                   android:launchMode="singleTop">
             <intent-filter>
@@ -44,7 +41,6 @@
             <meta-data android:name="android.app.default_searchable"
                        android:value=".ui.MainSearchActivity" />
         </activity>
-
       <!-- http://stackoverflow.com/questions/5087187/how-to-implement-search-box-in-my-application-in-android -->
         <activity  android:name=".ui.StartupActivity">
 

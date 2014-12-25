@@ -60,7 +60,6 @@ public class ItemPagerActivity extends FragmentActivity  {
 
         // Search
         // Browse BY
-
         // Get item position . set current item = item position
     }
     public void loadItems(Finishable finishable){
@@ -86,7 +85,6 @@ public class ItemPagerActivity extends FragmentActivity  {
 
         });
     }
-
     public ArrayList<Item> getItemsList() {
         return itemsList;
     }
