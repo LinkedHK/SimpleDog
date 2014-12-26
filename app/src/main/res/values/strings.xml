@@ -38,7 +38,11 @@
     <string name="search_hint">Search by title,category</string>
     <string name="search_results">Search results</string>
 
-
-
+    <string-array name="main_sliding_menu">
+        <item>Categories</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="app_not_available">Sorry, the search service is not available</string>
 
 </resources>

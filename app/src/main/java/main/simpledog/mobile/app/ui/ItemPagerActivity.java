@@ -1,6 +1,4 @@
 package main.simpledog.mobile.app.ui;
-
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -39,7 +37,6 @@ public class ItemPagerActivity extends FragmentActivity  {
     protected ItemDialogs dialogs = new ItemDialogs(this);
     ParamsFactory paramsFactory;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +59,7 @@ public class ItemPagerActivity extends FragmentActivity  {
         // Browse BY
         // Get item position . set current item = item position
     }
-    public void loadItems(Finishable finishable){
+    public void loadItems(final Finishable finishable){
         ItemResolverClient.get(paramsFactory.getUrl(), paramsFactory.getRequestParams(), ParamsFactory.TIMEOUT, new JsonHttpResponseHandler() {
             public void onStart() {
                 progressBar.setVisibility(View.VISIBLE);
@@ -71,6 +68,7 @@ public class ItemPagerActivity extends FragmentActivity  {
                 Type type = new TypeToken<ArrayList<Item>>() {
                 }.getType();
                 itemsList = (new GsonBuilder().create().fromJson(response.toString(), type));
+                finishable.onDone();
             }
             public final void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 dialogs.itemLoadFailure();
@@ -81,6 +79,7 @@ public class ItemPagerActivity extends FragmentActivity  {
             }
             public void onFinish() {
                 progressBar.setVisibility(View.GONE);
+                finishable.onDone();
             }
 
         });
@@ -88,8 +87,6 @@ public class ItemPagerActivity extends FragmentActivity  {
     public ArrayList<Item> getItemsList() {
         return itemsList;
     }
-
-
     private class  ListItemPagerAdapter extends FragmentStatePagerAdapter{
         ListItemPagerAdapter(FragmentManager manager){
             super(manager);

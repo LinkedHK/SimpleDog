@@ -22,6 +22,7 @@ import main.simpledog.mobile.app.ui.HomeActivity;
 import main.simpledog.mobile.app.ui.core.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListCategoriesAdapter;
 import main.simpledog.mobile.app.ui.core.ParamsFactory;
+import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 import org.apache.http.Header;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,14 +35,15 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
 
   protected   ListCategoriesAdapter categoryListAdapter;
     protected ProgressBar loaderView;
-
+    private ItemDialogs dialogs = new ItemDialogs(getActivity());
     public static final String TAG_ID = "categories_list";
-
-
     public void onActivityCreated( Bundle savedInstanceState) {
        super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
     }
+
+
+
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
@@ -65,7 +67,7 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
             }
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
                 if(getActivity() != null){
-                    ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
+                    dialogs.itemLoadFailure();
                 }
             }
 

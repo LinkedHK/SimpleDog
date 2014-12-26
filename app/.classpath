@@ -23,15 +23,15 @@
 	<classpathentry kind="src" path="src/androidTest/res"/>
 	<classpathentry kind="src" path="src/androidTest/resources"/>
 	<classpathentry kind="src" path="src/androidTest/aidl"/>
-	<classpathentry kind="src" path="src/debug/assets"/>
+	<classpathentry kind="src" path="build/generated/res/generated/test/debug"/>
 	<classpathentry kind="src" path="src/androidTest/java"/>
 	<classpathentry kind="src" path="src/androidTest/jni"/>
 	<classpathentry kind="src" path="src/androidTest/rs"/>
-	<classpathentry kind="src" path="src/androidTest/assets"/>
-	<classpathentry kind="src" path="build/generated/res/generated/test/debug"/>
+	<classpathentry kind="src" path="src/debug/assets"/>
 	<classpathentry kind="src" path="src/main/assets"/>
 	<classpathentry kind="src" path="src/main/aidl"/>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/androidTest/assets"/>
 	<classpathentry kind="src" path="src/main/jni"/>
 	<classpathentry kind="src" path="src/main/rs"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/appcompat-v7-21.0.3"/>

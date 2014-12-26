@@ -10,7 +10,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:name=".core.CoreApplication"
-        android:theme="@android:style/Theme.DeviceDefault.Light"
+        android:theme="@android:style/Theme.AppCompat.Light"
             >
         <provider android:authorities="com.simpledog.RecentItemsSuggestionProvider"
                   android:name=".core.RecentItemsSuggestionProvider"/>

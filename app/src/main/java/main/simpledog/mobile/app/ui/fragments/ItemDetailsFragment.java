@@ -10,6 +10,7 @@ import main.simpledog.mobile.app.rest.entities.Item;
 import main.simpledog.mobile.app.rest.entities.ShowItem;
 import main.simpledog.mobile.app.ui.HomeActivity;
 import main.simpledog.mobile.app.ui.core.ListItemLoader;
+import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public class ItemDetailsFragment extends Fragment {
    private TextView itemTitle;
     private TextView itemDescription;
     private ListItemLoader itemLoader = new ListItemLoader();
+
+    private ItemDialogs dialogs = new ItemDialogs(getActivity());
     private ProgressBar progressBar;
     @Override
     public void onActivityCreated(Bundle savedInstanceState){
@@ -44,7 +47,7 @@ public class ItemDetailsFragment extends Fragment {
             @Override
             public void onFailure(int statusCode)
             {
-                ((HomeActivity)getActivity()).getItemDialogs().itemLoadFailure();
+                dialogs.itemLoadFailure();
             }
             @Override
             public void onFinish() {
