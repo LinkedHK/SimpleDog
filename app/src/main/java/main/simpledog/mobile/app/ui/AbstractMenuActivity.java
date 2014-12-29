@@ -4,16 +4,22 @@ import android.app.Fragment;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
+
+
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.*;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.SearchView;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.ui.core.RefreshManager;
 
@@ -37,12 +43,10 @@ public abstract class AbstractMenuActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mRefreshManager = new RefreshManager(this);
+
     }
 
     public void buildPostView(Bundle savedInstanceState){
-        toolbar = (Toolbar)findViewById(R.id.mainToolBar);
-
-
         mTitle = mDrawerTitle =  getTitle();
 
         mMenuTitles = getResources().getStringArray(R.array.main_sliding_menu);
@@ -56,24 +60,23 @@ public abstract class AbstractMenuActivity extends ActionBarActivity {
 
        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-     getActionBar().setDisplayHomeAsUpEnabled(true);
-       getActionBar().setHomeButtonEnabled(true);
+     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       getSupportActionBar().setHomeButtonEnabled(true);
 
 
         mDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 mDrawerLayout,
-                toolbar ,  /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open,  /* "open drawer" description for accessibility */
                 R.string.drawer_close  /* "close drawer" description for accessibility */
 
         ){
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
+                getSupportActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                getSupportActionBar().setTitle(mDrawerTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
 
@@ -93,10 +96,16 @@ public abstract class AbstractMenuActivity extends ActionBarActivity {
         // Associate searchable configuration with the SearchView
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.liveSearchMenu).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+
+        MenuItem searchItem =  menu.findItem(R.id.liveSearchMenu);
+
+        if(searchItem != null ){
+            android.support.v7.widget.SearchView searchView =
+                    (android.support.v7.widget.SearchView) searchItem.getActionView();
+            searchView.setSearchableInfo(
+                    searchManager.getSearchableInfo(getComponentName()));
+        }
+
         return true;
     }
 
@@ -117,9 +126,11 @@ public abstract class AbstractMenuActivity extends ActionBarActivity {
             case android.R.id.home:
                 getSupportFragmentManager().popBackStack();
                 break;
+
             case R.id.refresh_button:
                 getRefreshManager().refreshFragment();
                 break;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -148,14 +159,14 @@ public abstract class AbstractMenuActivity extends ActionBarActivity {
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         */
-        Log.d("select_item","Selcet Item");
+        Log.d("select_item", "ID: " + position);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
     @Override
     public void setTitle(CharSequence title) {
         mTitle = title;
-        getActionBar().setTitle(mTitle);
+        getSupportActionBar().setTitle(mTitle);
     }
 
     /**
@@ -176,21 +187,6 @@ public abstract class AbstractMenuActivity extends ActionBarActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
-
-    /**
-     * Fragment that appears in the "content_frame", shows a planet
-     */
-    public static class PlanetFragment extends Fragment {
-        public static final String ARG_PLANET_NUMBER = "planet_number";
-
-        public PlanetFragment() {
-            // Empty constructor required for fragment subclasses
-        }
-
-
-    }
-
-
 
 
     public RefreshManager getRefreshManager() {

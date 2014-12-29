@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -29,7 +30,7 @@ import org.json.JSONObject;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
-public class ItemPagerActivity extends FragmentActivity  {
+public class ItemPagerActivity extends ActionBarActivity {
     private ProgressBar progressBar;
     private ViewPager mViewPager;
     private ArrayList<Item> itemsList;
@@ -40,7 +41,7 @@ public class ItemPagerActivity extends FragmentActivity  {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.item_list_pager);
         //progressBar = (ProgressBar)findViewById(R.id.progressBar);
         paramsFactory = new ParamsFactory(getIntent().getExtras());

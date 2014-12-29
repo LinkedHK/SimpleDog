@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import main.simpledog.mobile.app.R;
+import main.simpledog.mobile.app.ui.core.ParamsFactory;
 import main.simpledog.mobile.app.ui.fragments.*;
 import main.simpledog.mobile.app.ui.utils.FragmentUtil;
 
@@ -21,8 +22,6 @@ public class HomeActivity extends AbstractMenuActivity {
         getSupportFragmentManager().addOnBackStackChangedListener(backStackChangedListener);
     }
 
-
-
     /** http://stackoverflow.com/questions/13086840/actionbar-up-navigation-with-fragments */
     private FragmentManager.OnBackStackChangedListener backStackChangedListener = new FragmentManager.OnBackStackChangedListener() {
         @Override
@@ -35,8 +34,8 @@ public class HomeActivity extends AbstractMenuActivity {
                 /** Set Back Button */
                 int stackHeight = fragmentManager.getBackStackEntryCount();
                 boolean  has_stack = stackHeight > 1;
-                getActionBar().setHomeButtonEnabled(has_stack);
-                getActionBar().setDisplayHomeAsUpEnabled(has_stack);
+                getSupportActionBar().setHomeButtonEnabled(has_stack);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(has_stack);
                 /**
                  *  http://stackoverflow.com/questions/6503189/fragments-onresume-from-back-stack/6505060#6505060
                  *  Call on Resume Fragment Method To update menu
@@ -56,7 +55,9 @@ public class HomeActivity extends AbstractMenuActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment =  fragmentManager.findFragmentById(R.id.listViewContainer);
         if(fragment == null){
+            Bundle bundle = ParamsFactory.setListCategories();
             fragment = new CategoriesListFragment();
+            fragment.setArguments(bundle);
             fragmentManager.beginTransaction()
                     .add(R.id.listViewContainer, fragment, CategoriesListFragment.TAG_ID)
                     .addToBackStack(CategoriesListFragment.TAG_ID)

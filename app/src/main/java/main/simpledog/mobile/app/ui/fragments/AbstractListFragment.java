@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +43,13 @@ public abstract class AbstractListFragment extends ListFragment implements Refre
 
     protected int page = 1;
 
-    private ItemDialogs dialogs = new ItemDialogs(getActivity());
+    private ItemDialogs dialogs;
+
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        dialogs = new ItemDialogs(getActivity());
+    }
 
     @Override
     public void onViewCreated (View view, Bundle savedInstanceState) {

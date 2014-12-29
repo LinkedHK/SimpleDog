@@ -3,6 +3,8 @@ import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.Resources;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 import main.simpledog.mobile.app.R;
 
@@ -27,6 +29,7 @@ public class ItemDialogs  {
         }else {
            return;
         }
+
         AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
         alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override

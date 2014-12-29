@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.ListFragment;
+import android.support.v7.app.ActionBarActivity;
 import android.view.*;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -18,8 +19,6 @@ import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.rest.ItemResolverClient;
 import main.simpledog.mobile.app.rest.Routes;
 import main.simpledog.mobile.app.rest.entities.ItemCategory;
-import main.simpledog.mobile.app.ui.HomeActivity;
-import main.simpledog.mobile.app.ui.core.ListItemLoader;
 import main.simpledog.mobile.app.ui.adapters.ListCategoriesAdapter;
 import main.simpledog.mobile.app.ui.core.ParamsFactory;
 import main.simpledog.mobile.app.ui.dialogs.ItemDialogs;
@@ -35,18 +34,26 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
 
   protected   ListCategoriesAdapter categoryListAdapter;
     protected ProgressBar loaderView;
-    private ItemDialogs dialogs = new ItemDialogs(getActivity());
+    private ItemDialogs dialogs;
     public static final String TAG_ID = "categories_list";
+
+
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        dialogs = new ItemDialogs(getActivity());
+
+    }
     public void onActivityCreated( Bundle savedInstanceState) {
        super.onActivityCreated(savedInstanceState);
+        loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
         setHasOptionsMenu(true);
     }
 
 
-
     public void onViewCreated (View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loaderView = (ProgressBar) getActivity().findViewById(R.id.itemLoadingProgressBar);
+
         loadCategories(new Finishable() {
             @Override
             public void onDone() {
@@ -54,7 +61,7 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
         });
     }
     private void loadCategories(final  Finishable finishable){
-        ItemResolverClient.get(Routes.CATEGORIES_LIST, null,ListItemLoader.loadItemTimeout, new JsonHttpResponseHandler(){
+        ItemResolverClient.get(Routes.CATEGORIES_LIST, null,ParamsFactory.TIMEOUT, new JsonHttpResponseHandler(){
             public void onStart() {
                 getLoaderView().setVisibility(View.VISIBLE);
             }
@@ -70,12 +77,14 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
                     dialogs.itemLoadFailure();
                 }
             }
-
             public void onFinish() {
                 getLoaderView().setVisibility(View.INVISIBLE);
                 finishable.onDone();
             }
         });
+
+
+
     }
 
     @Override
@@ -85,7 +94,7 @@ public class CategoriesListFragment extends ListFragment implements  Refreshable
         setTitle();
     }
     public  void setTitle(){
-        getActivity().getActionBar().setTitle(R.string.page_categories_jobs);
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(R.string.page_categories_jobs);
     }
 
     @Override

@@ -3,8 +3,11 @@ package main.simpledog.mobile.app.ui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.ui.core.ParamsFactory;
+import main.simpledog.mobile.app.ui.core.ParamsFactoryConstants;
+import main.simpledog.mobile.app.ui.core.ParamsFactoryParser;
 
 public class ListSearchItemsFrafment extends AbstractListFragment implements  Refreshable{
 
@@ -26,11 +29,11 @@ public class ListSearchItemsFrafment extends AbstractListFragment implements  Re
 
     public void setTitle(){
         String def_list_name = getString(R.string.search_results);
-        getActivity().getActionBar().setTitle(def_list_name);
+        ((ActionBarActivity)getActivity()).getSupportActionBar().setTitle(def_list_name);
     }
     public Bundle getParams(){
-        String s = getArguments().getString(ParamsFactory.SEARCH);
-        return  ParamsFactory.setSearchable(s,getPage());
+        String s = getArguments().getString(ParamsFactoryConstants.SEARCH);
+        return  ParamsFactoryParser.setSearchable(s, getPage());
     }
     @Override
     public String getFragmentId() {

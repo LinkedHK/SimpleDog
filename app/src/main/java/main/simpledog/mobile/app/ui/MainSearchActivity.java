@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import main.simpledog.mobile.app.R;
 import main.simpledog.mobile.app.core.RecentItemsSuggestionProvider;
 import main.simpledog.mobile.app.ui.core.ParamsFactory;
+import main.simpledog.mobile.app.ui.core.ParamsFactoryConstants;
 import main.simpledog.mobile.app.ui.fragments.ListSearchItemsFrafment;
 
 public class MainSearchActivity extends AbstractMenuActivity {
@@ -17,7 +18,7 @@ public class MainSearchActivity extends AbstractMenuActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_home);
         super.buildPostView(savedInstanceState);
         handleIntent(getIntent());
@@ -36,7 +37,7 @@ public class MainSearchActivity extends AbstractMenuActivity {
             /** Creating a new fragment if fragment either is null or number
              * of items doesn't match to the items in the list fragment  */
             Bundle args = new Bundle();
-            args.putString(ParamsFactory.SEARCH, query);
+            args.putString(ParamsFactoryConstants.SEARCH, query);
             ListSearchItemsFrafment fragment = ListSearchItemsFrafment.newInstance(args, this);
             FragmentTransaction transaction =
                     getSupportFragmentManager().beginTransaction()
